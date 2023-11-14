@@ -53,7 +53,7 @@
           <tbody>
 
             @foreach($products as $product)
-              @php
+                @php
               $sub_cat_info=DB::table('categories')->select('title')->where('id',$product->child_cat_id)->get();
               // dd($sub_cat_info);
               $brands=DB::table('brands')->select('title')->where('id',$product->brand_id)->get();
@@ -71,7 +71,11 @@
                     <td>  {{$product->discount}}% OFF</td>
                     <td>{{$product->size}}</td>
                     <td>{{$product->condition}}</td>
-                    <td> {{ucfirst($product->brand->title)}}</td>
+                    <td>
+                        @if(isset($product->brand->title))
+                            {{ucfirst($product->brand->title)}}
+                        @endif
+                    </td>
                     <td>
                       @if($product->stock>0)
                       <span class="badge badge-primary">{{$product->stock}}</span>
