@@ -239,7 +239,7 @@
 			margin-bottom:0 !important;
 		}
 		.list li:hover{
-			background:#F7941D !important;
+			background:#4e73df !important;
 			color:white !important;
 		}
 		.form-select .nice-select::after {
