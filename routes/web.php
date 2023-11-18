@@ -1,32 +1,32 @@
 <?php
 
-    use Illuminate\Support\Facades\Route;
-    use Illuminate\Support\Facades\Artisan;
-    use App\Http\Controllers\AdminController;
-    use App\Http\Controllers\FrontendController;
-    use App\Http\Controllers\Auth\LoginController;
-    use App\Http\Controllers\MessageController;
-    use App\Http\Controllers\CartController;
-    use App\Http\Controllers\WishlistController;
-    use App\Http\Controllers\OrderController;
-    use App\Http\Controllers\ProductReviewController;
-    use App\Http\Controllers\PostCommentController;
-    use App\Http\Controllers\CouponController;
-    use App\Http\Controllers\PayPalController;
-    use App\Http\Controllers\NotificationController;
-    use App\Http\Controllers\HomeController;
-    use \UniSharp\LaravelFilemanager\Lfm;
+use App\Http\Controllers\Admin\Product\ProductReviewController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MessageController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\PostCommentController;
+use App\Http\Controllers\WishlistController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
+use UniSharp\LaravelFilemanager\Lfm;
 
-    /*
-    |--------------------------------------------------------------------------
-    | Web Routes
-    |--------------------------------------------------------------------------
-    |
-    | Here is where you can register web routes for your application. These
-    | routes are loaded by the RouteServiceProvider within a group which
-    | contains the "web" middleware group. Now create something great!
-    |
-    */
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
     // CACHE CLEAR ROUTE
     Route::get('cache-clear', function () {
@@ -104,7 +104,7 @@
     Route::post('/subscribe', [FrontendController::class, 'subscribe'])->name('subscribe');
 
 // Product Review
-    Route::resource('/review', 'ProductReviewController');
+    Route::resource('/review', 'Admin\Product\ProductReviewController');
     Route::post('product/{slug}/review', [ProductReviewController::class, 'store'])->name('review.store');
 
 // Post Comment
@@ -128,18 +128,18 @@
         // user route
         Route::resource('users', 'UsersController');
         // Banner
-        Route::resource('banner', 'BannerController');
+        Route::resource('banner', 'Admin\BannerController');
         // Brand
-        Route::resource('brand', 'BrandController');
+        Route::resource('brand', 'Admin\Product\BrandController');
         // Profile
         Route::get('/profile', [AdminController::class, 'profile'])->name('admin-profile');
         Route::post('/profile/{id}', [AdminController::class, 'profileUpdate'])->name('profile-update');
         // Category
-        Route::resource('/category', 'CategoryController');
+        Route::resource('/category', 'Admin\Product\CategoryController');
         // Product
-        Route::resource('/product', 'ProductController');
+        Route::resource('/product', 'Admin\Product\ProductController');
         // Ajax for sub category
-        Route::post('/category/{id}/child', 'CategoryController@getChildByParent');
+        Route::post('/category/{id}/child', 'Admin\Product\CategoryController@getChildByParent');
         // POST category
         Route::resource('/post-category', 'PostCategoryController');
         // Post tag
@@ -153,7 +153,7 @@
         // Order
         Route::resource('/order', 'OrderController');
         // Shipping
-        Route::resource('/shipping', 'ShippingController');
+        Route::resource('/shipping', 'Admin\Product\ShippingController');
         // Coupon
         Route::resource('/coupon', 'CouponController');
         // Settings

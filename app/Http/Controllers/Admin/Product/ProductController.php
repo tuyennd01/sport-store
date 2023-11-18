@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Product;
 
-use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Category;
+use App\Http\Controllers\Controller;
 use App\Models\Brand;
-
-use Illuminate\Support\Str;
+use App\Models\Category;
+use App\Models\Product;
+use App\Services\Admin\Product\ReviewProductService;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -18,8 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::getAllProduct();
-        // return $products;
+        $products = ReviewProductService::getInstance()->listProduct();
+
         return view('backend.product.index')->with('products', $products);
     }
 
@@ -44,7 +44,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
         $this->validate($request, [
             'title' => 'string|required',
             'summary' => 'string|required',
@@ -62,28 +61,8 @@ class ProductController extends Controller
             'discount' => 'nullable|numeric'
         ]);
 
-        $data = $request->all();
-        $slug = Str::slug($request->title);
-        $count = Product::where('slug', $slug)->count();
-        if ($count > 0) {
-            $slug = $slug . '-' . date('ymdis') . '-' . rand(0, 999);
-        }
-        $data['slug'] = $slug;
-        $data['is_featured'] = $request->input('is_featured', 0);
-        $size = $request->input('size');
-        if ($size) {
-            $data['size'] = implode(',', $size);
-        } else {
-            $data['size'] = '';
-        }
-        // return $size;
-        // return $data;
-        $status = Product::create($data);
-        if ($status) {
-            request()->session()->flash('success', 'Product Successfully added');
-        } else {
-            request()->session()->flash('error', 'Please try again!!');
-        }
+        ReviewProductService::getInstance()->storeProduct($request);
+
         return redirect()->route('product.index');
 
     }
@@ -126,7 +105,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
         $this->validate($request, [
             'title' => 'string|required',
             'summary' => 'string|required',
@@ -144,21 +122,8 @@ class ProductController extends Controller
             'discount' => 'nullable|numeric'
         ]);
 
-        $data = $request->all();
-        $data['is_featured'] = $request->input('is_featured', 0);
-        $size = $request->input('size');
-        if ($size) {
-            $data['size'] = implode(',', $size);
-        } else {
-            $data['size'] = '';
-        }
-        // return $data;
-        $status = $product->fill($data)->save();
-        if ($status) {
-            request()->session()->flash('success', 'Product Successfully updated');
-        } else {
-            request()->session()->flash('error', 'Please try again!!');
-        }
+        ReviewProductService::getInstance()->updateProduct($request, $id);
+
         return redirect()->route('product.index');
     }
 
@@ -170,14 +135,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $status = $product->delete();
+        ReviewProductService::getInstance()->destroyProduct($id);
 
-        if ($status) {
-            request()->session()->flash('success', 'Product successfully deleted');
-        } else {
-            request()->session()->flash('error', 'Error while deleting product');
-        }
         return redirect()->route('product.index');
     }
 }
