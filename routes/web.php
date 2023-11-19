@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Post\PostCommentController;
 use App\Http\Controllers\Admin\Product\ProductReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
@@ -11,7 +12,6 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PayPalController;
-use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -109,7 +109,7 @@ use UniSharp\LaravelFilemanager\Lfm;
 
 // Post Comment
     Route::post('post/{slug}/comment', [PostCommentController::class, 'store'])->name('post-comment.store');
-    Route::resource('/comment', 'PostCommentController');
+    Route::resource('/comment', 'Admin\Post\PostCommentController');
 // Coupon
     Route::post('/coupon-store', [CouponController::class, 'couponStore'])->name('coupon-store');
 // Payment
@@ -141,11 +141,11 @@ use UniSharp\LaravelFilemanager\Lfm;
         // Ajax for sub category
         Route::post('/category/{id}/child', 'Admin\Product\CategoryController@getChildByParent');
         // POST category
-        Route::resource('/post-category', 'PostCategoryController');
+        Route::resource('/post-category', 'Admin\Post\PostCategoryController');
         // Post tag
-        Route::resource('/post-tag', 'PostTagController');
+        Route::resource('/post-tag', 'Admin\Post\PostTagController');
         // Post
-        Route::resource('/post', 'PostController');
+        Route::resource('/post', 'Admin\Post\PostController');
         // Message
         Route::resource('/message', 'MessageController');
         Route::get('/message/five', [MessageController::class, 'messageFive'])->name('messages.five');

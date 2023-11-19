@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\Admin\Product\ProductService;
 use App\Services\Admin\Product\ReviewProductService;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = ReviewProductService::getInstance()->listProduct();
+        $products = ProductService::getInstance()->listProduct();
 
         return view('backend.product.index')->with('products', $products);
     }

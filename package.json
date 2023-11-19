@@ -2,6 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "npm run development",
+        "minify-css": "uglifycss public/backend/css/sb-admin-2.css > public/backend/css/sb-admin-2.min.css",
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "watch": "npm run development -- --watch",
         "watch-poll": "npm run watch -- --watch-poll",
@@ -24,6 +25,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "gulp": "^4.0.2",
         "laravel-echo": "^1.8.0",
         "pusher-js": "^6.0.3"
     }

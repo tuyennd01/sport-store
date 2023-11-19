@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Post;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\PostTag;
-use Illuminate\Support\Str;
+use App\Services\Admin\Post\PostTagService;
+use Illuminate\Http\Request;
 
 class PostTagController extends Controller
 {
@@ -15,7 +16,8 @@ class PostTagController extends Controller
      */
     public function index()
     {
-        $postTag = PostTag::orderBy('id', 'DESC')->paginate(10);
+        $postTag = PostTagService::getInstance()->listPostTag();
+
         return view('backend.posttag.index')->with('postTags', $postTag);
     }
 
@@ -41,19 +43,9 @@ class PostTagController extends Controller
             'title' => 'string|required',
             'status' => 'required|in:active,inactive'
         ]);
-        $data = $request->all();
-        $slug = Str::slug($request->title);
-        $count = PostTag::where('slug', $slug)->count();
-        if ($count > 0) {
-            $slug = $slug . '-' . date('ymdis') . '-' . rand(0, 999);
-        }
-        $data['slug'] = $slug;
-        $status = PostTag::create($data);
-        if ($status) {
-            request()->session()->flash('success', 'Post Tag Successfully added');
-        } else {
-            request()->session()->flash('error', 'Please try again!!');
-        }
+
+        PostTagService::getInstance()->storePostTag($request);
+
         return redirect()->route('post-tag.index');
     }
 
@@ -89,19 +81,13 @@ class PostTagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $postTag = PostTag::findOrFail($id);
-        // return $request->all();
         $this->validate($request, [
             'title' => 'string|required',
             'status' => 'required|in:active,inactive'
         ]);
-        $data = $request->all();
-        $status = $postTag->fill($data)->save();
-        if ($status) {
-            request()->session()->flash('success', 'Post Tag Successfully updated');
-        } else {
-            request()->session()->flash('error', 'Please try again!!');
-        }
+
+        PostTagService::getInstance()->updatePostTag($request, $id);
+
         return redirect()->route('post-tag.index');
     }
 
@@ -113,15 +99,8 @@ class PostTagController extends Controller
      */
     public function destroy($id)
     {
-        $postTag = PostTag::findOrFail($id);
+        PostTagService::getInstance()->destroyPostTag($id);
 
-        $status = $postTag->delete();
-
-        if ($status) {
-            request()->session()->flash('success', 'Post Tag successfully deleted');
-        } else {
-            request()->session()->flash('error', 'Error while deleting post tag');
-        }
         return redirect()->route('post-tag.index');
     }
 }

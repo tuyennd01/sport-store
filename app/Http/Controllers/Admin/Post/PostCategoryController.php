@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Post;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
-use Illuminate\Support\Str;
+use App\Services\Admin\Post\PostTagService;
+use Illuminate\Http\Request;
 
 class PostCategoryController extends Controller
 {
@@ -15,7 +16,8 @@ class PostCategoryController extends Controller
      */
     public function index()
     {
-        $postCategory = PostCategory::orderBy('id', 'DESC')->paginate(10);
+        $postCategory = PostTagService::getInstance()->listPostCategory();
+
         return view('backend.postcategory.index')->with('postCategories', $postCategory);
     }
 
@@ -42,19 +44,9 @@ class PostCategoryController extends Controller
             'title' => 'string|required',
             'status' => 'required|in:active,inactive'
         ]);
-        $data = $request->all();
-        $slug = Str::slug($request->title);
-        $count = PostCategory::where('slug', $slug)->count();
-        if ($count > 0) {
-            $slug = $slug . '-' . date('ymdis') . '-' . rand(0, 999);
-        }
-        $data['slug'] = $slug;
-        $status = PostCategory::create($data);
-        if ($status) {
-            request()->session()->flash('success', 'Post Category Successfully added');
-        } else {
-            request()->session()->flash('error', 'Please try again!!');
-        }
+
+        PostTagService::getInstance()->storePostCategory($request);
+
         return redirect()->route('post-category.index');
     }
 
@@ -90,19 +82,13 @@ class PostCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $postCategory = PostCategory::findOrFail($id);
-        // return $request->all();
         $this->validate($request, [
             'title' => 'string|required',
             'status' => 'required|in:active,inactive'
         ]);
-        $data = $request->all();
-        $status = $postCategory->fill($data)->save();
-        if ($status) {
-            request()->session()->flash('success', 'Post Category Successfully updated');
-        } else {
-            request()->session()->flash('error', 'Please try again!!');
-        }
+
+        PostTagService::getInstance()->updatePostCategory($request, $id);
+
         return redirect()->route('post-category.index');
     }
 
@@ -114,15 +100,8 @@ class PostCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $postCategory = PostCategory::findOrFail($id);
+        PostTagService::getInstance()->destroyPostCategory($id);
 
-        $status = $postCategory->delete();
-
-        if ($status) {
-            request()->session()->flash('success', 'Post Category successfully deleted');
-        } else {
-            request()->session()->flash('error', 'Error while deleting post category');
-        }
         return redirect()->route('post-category.index');
     }
 }

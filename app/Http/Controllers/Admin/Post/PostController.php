@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Post;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\PostTag;
+use App\Services\Admin\Post\PostTagService;
 use App\User;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -18,8 +19,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::getAllPost();
-        // return $posts;
+        $posts = PostTagService::getInstance()->listPost();
+
         return view('backend.post.index')->with('posts', $posts);
     }
 
@@ -57,29 +58,8 @@ class PostController extends Controller
             'status' => 'required|in:active,inactive'
         ]);
 
-        $data = $request->all();
+        PostTagService::getInstance()->storePost($request);
 
-        $slug = Str::slug($request->title);
-        $count = Post::where('slug', $slug)->count();
-        if ($count > 0) {
-            $slug = $slug . '-' . date('ymdis') . '-' . rand(0, 999);
-        }
-        $data['slug'] = $slug;
-
-        $tags = $request->input('tags');
-        if ($tags) {
-            $data['tags'] = implode(',', $tags);
-        } else {
-            $data['tags'] = '';
-        }
-        // return $data;
-
-        $status = Post::create($data);
-        if ($status) {
-            request()->session()->flash('success', 'Post Successfully added');
-        } else {
-            request()->session()->flash('error', 'Please try again!!');
-        }
         return redirect()->route('post.index');
     }
 
@@ -118,7 +98,6 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $post = Post::findOrFail($id);
         // return $request->all();
         $this->validate($request, [
             'title' => 'string|required',
@@ -132,22 +111,8 @@ class PostController extends Controller
             'status' => 'required|in:active,inactive'
         ]);
 
-        $data = $request->all();
-        $tags = $request->input('tags');
-        // return $tags;
-        if ($tags) {
-            $data['tags'] = implode(',', $tags);
-        } else {
-            $data['tags'] = '';
-        }
-        // return $data;
+        PostTagService::getInstance()->updatePost($request, $id);
 
-        $status = $post->fill($data)->save();
-        if ($status) {
-            request()->session()->flash('success', 'Post Successfully updated');
-        } else {
-            request()->session()->flash('error', 'Please try again!!');
-        }
         return redirect()->route('post.index');
     }
 
@@ -159,15 +124,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::findOrFail($id);
+       PostTagService::getInstance()->destroyPost($id);
 
-        $status = $post->delete();
-
-        if ($status) {
-            request()->session()->flash('success', 'Post successfully deleted');
-        } else {
-            request()->session()->flash('error', 'Error while deleting post ');
-        }
         return redirect()->route('post.index');
     }
 }
