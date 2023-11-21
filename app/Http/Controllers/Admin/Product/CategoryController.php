@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Services\Admin\Product\CategoryService;
 use App\Services\Admin\Product\ShippingService;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = ShippingService::getInstance()->listCategory();
+        $category = CategoryService::getInstance()->listCategory();
 
         return view('backend.category.index')->with('categories', $category);
     }
@@ -28,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $parent_cats = ShippingService::getInstance()->createCategory();
+        $parent_cats = CategoryService::getInstance()->createCategory();
 
         return view('backend.category.create')->with('parent_cats', $parent_cats);
     }
@@ -50,7 +51,7 @@ class CategoryController extends Controller
             'parent_id' => 'nullable|exists:categories,id',
         ]);
 
-        ShippingService::getInstance()->storeCategory($request);
+        CategoryService::getInstance()->storeCategory($request);
 
         return redirect()->route('category.index');
     }
@@ -99,7 +100,7 @@ class CategoryController extends Controller
             'parent_id' => 'nullable|exists:categories,id',
         ]);
 
-        ShippingService::getInstance()->updateCategory($request, $id);
+        CategoryService::getInstance()->updateCategory($request, $id);
 
         return redirect()->route('category.index');
     }

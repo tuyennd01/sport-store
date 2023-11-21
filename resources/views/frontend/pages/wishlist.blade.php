@@ -17,7 +17,7 @@
 		</div>
 	</div>
 	<!-- End Breadcrumbs -->
-			
+
 	<!-- Shopping Cart -->
 	<div class="shopping-cart section">
 		<div class="container">
@@ -28,9 +28,9 @@
 						<thead>
 							<tr class="main-hading">
 								<th>PRODUCT</th>
-								<th>NAME</th>
-								<th class="text-center">TOTAL</th> 
-								<th class="text-center">ADD TO CART</th> 
+								<th>Người dùng</th>
+								<th class="text-center">TOTAL</th>
+								<th class="text-center">Thêm vào giỏ</th>
 								<th class="text-center"><i class="ti-trash remove-icon"></i></th>
 							</tr>
 						</thead>
@@ -38,7 +38,7 @@
 							@if(Helper::getAllProductFromWishlist())
 								@foreach(Helper::getAllProductFromWishlist() as $key=>$wishlist)
 									<tr>
-										@php 
+										@php
 											$photo=explode(',',$wishlist->product['photo']);
 										@endphp
 										<td class="image" data-title="No"><img src="{{$photo[0]}}" alt="{{$photo[0]}}"></td>
@@ -46,12 +46,12 @@
 											<p class="product-name"><a href="{{route('product-detail',$wishlist->product['slug'])}}">{{$wishlist->product['title']}}</a></p>
 											<p class="product-des">{!!($wishlist['summary']) !!}</p>
 										</td>
-										<td class="total-amount" data-title="Total"><span>${{$wishlist['amount']}}</span></td>
-										<td><a href="{{route('add-to-cart',$wishlist->product['slug'])}}" class='btn text-white'>Add To Cart</a></td>
+										<td class="total-amount" data-title="Total"><span>{{$wishlist['amount']}} VND</span></td>
+										<td><a href="{{route('add-to-cart',$wishlist->product['slug'])}}" class='btn text-white'>Thêm vào giỏ</a></td>
 										<td class="action" data-title="Remove"><a href="{{route('wishlist-delete',$wishlist->id)}}"><i class="ti-trash remove-icon"></i></a></td>
 									</tr>
 								@endforeach
-							@else 
+							@else
 								<tr>
 									<td class="text-center">
 										There are no any wishlist available. <a href="{{route('product-grids')}}" style="color:blue;">Continue shopping</a>
@@ -69,7 +69,7 @@
 		</div>
 	</div>
 	<!--/ End Shopping Cart -->
-			
+
 	<!-- Start Shop Services Area  -->
 	<section class="shop-services section">
 		<div class="container">
@@ -106,7 +106,7 @@
 					<div class="single-service">
 						<i class="ti-tag"></i>
 						<h4>Best Peice</h4>
-						<p>Guaranteed price</p>
+						<p>Guaranteed Giá</p>
 					</div>
 					<!-- End Single Service -->
 				</div>
@@ -114,11 +114,11 @@
 		</div>
 	</section>
 	<!-- End Shop Newsletter -->
-	
+
 	@include('frontend.layouts.newsletter')
-	
-	
-	
+
+
+
 	<!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -163,7 +163,7 @@
                                             <a href="#"> (1 customer review)</a>
                                         </div>
                                         <div class="quickview-stock">
-                                            <span><i class="fa fa-check-circle-o"></i> in stock</span>
+                                            <span><i class="fa fa-check-circle-o"></i> trong kho </span>
                                         </div>
                                     </div>
                                     <h3>$29.00</h3>
@@ -173,7 +173,7 @@
 									<div class="size">
 										<div class="row">
 											<div class="col-lg-6 col-12">
-												<h5 class="title">Size</h5>
+												<h5 class="title">Kích cỡ</h5>
 												<select>
 													<option selected="selected">s</option>
 													<option>m</option>
@@ -210,7 +210,7 @@
 										<!--/ End Input Order -->
 									</div>
 									<div class="add-to-cart">
-										<a href="#" class="btn">Add to cart</a>
+										<a href="#" class="btn">Thêm vào giỏ</a>
 										<a href="#" class="btn min"><i class="ti-heart"></i></a>
 										<a href="#" class="btn min"><i class="fa fa-compress"></i></a>
 									</div>
@@ -231,7 +231,7 @@
             </div>
         </div>
         <!-- Modal end -->
-	
+
 @endsection
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>

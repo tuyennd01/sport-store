@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
-use App\Services\Admin\Product\ShippingService;
+use App\Services\Admin\Product\BrandService;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
@@ -16,7 +16,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brand = ShippingService::getInstance()->listBrands();
+        $brand = BrandService::getInstance()->listBrands();
 
         return view('backend.brand.index')->with('brands', $brand);
     }
@@ -43,7 +43,7 @@ class BrandController extends Controller
             'title' => 'string|required',
         ]);
 
-        ShippingService::getInstance()->storeBrand($request);
+        BrandService::getInstance()->storeBrand($request);
 
         return redirect()->route('brand.index');
     }
@@ -88,7 +88,7 @@ class BrandController extends Controller
             'title' => 'string|required',
         ]);
 
-        ShippingService::getInstance()->updateBrand($request, $id);
+        BrandService::getInstance()->updateBrand($request, $id);
 
         return redirect()->route('brand.index');
     }
@@ -101,7 +101,7 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        ShippingService::getInstance()->destroyBrand($id);
+        BrandService::getInstance()->destroyBrand($id);
 
         return redirect()->route('brand.index');
     }

@@ -14,18 +14,18 @@
         <input type="text" disabled class="form-control" value="{{$comment->user_info->name}}">
       </div>
       <div class="form-group">
-        <label for="comment">comment</label>
+        <label for="comment">Bình luận</label>
       <textarea name="comment" id="" cols="20" rows="10" class="form-control">{{$comment->comment}}</textarea>
       </div>
       <div class="form-group">
-        <label for="status">Status :</label>
+        <label for="status">Trạng thái :</label>
         <select name="status" id="" class="form-control">
           <option value="">--Select Status--</option>
           <option value="active" {{(($comment->status=='active')? 'selected' : '')}}>Active</option>
           <option value="inactive" {{(($comment->status=='inactive')? 'selected' : '')}}>Inactive</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" class="btn btn-primary">Cập nhật</button>
     </form>
   </div>
 </div>

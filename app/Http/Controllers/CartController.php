@@ -146,7 +146,7 @@ class CartController extends Controller
                     $cart->amount = $after_price * $quant;
                     // return $cart->price;
                     $cart->save();
-                    $success = 'Cart successfully updated!';
+                    $success = 'Cập nhật giỏ hàng thành công!';
                 } else {
                     $error[] = 'Cart Invalid!';
                 }

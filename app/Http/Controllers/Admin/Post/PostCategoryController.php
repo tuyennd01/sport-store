@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Post;
 
 use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
+use App\Services\Admin\Post\PostCategoryService;
 use App\Services\Admin\Post\PostTagService;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class PostCategoryController extends Controller
      */
     public function index()
     {
-        $postCategory = PostTagService::getInstance()->listPostCategory();
+        $postCategory = PostCategoryService::getInstance()->listPostCategory();
 
         return view('backend.postcategory.index')->with('postCategories', $postCategory);
     }
@@ -45,7 +46,7 @@ class PostCategoryController extends Controller
             'status' => 'required|in:active,inactive'
         ]);
 
-        PostTagService::getInstance()->storePostCategory($request);
+        PostCategoryService::getInstance()->storePostCategory($request);
 
         return redirect()->route('post-category.index');
     }
@@ -87,7 +88,7 @@ class PostCategoryController extends Controller
             'status' => 'required|in:active,inactive'
         ]);
 
-        PostTagService::getInstance()->updatePostCategory($request, $id);
+        PostCategoryService::getInstance()->updatePostCategory($request, $id);
 
         return redirect()->route('post-category.index');
     }
@@ -100,7 +101,7 @@ class PostCategoryController extends Controller
      */
     public function destroy($id)
     {
-        PostTagService::getInstance()->destroyPostCategory($id);
+        PostCategoryService::getInstance()->destroyPostCategory($id);
 
         return redirect()->route('post-category.index');
     }

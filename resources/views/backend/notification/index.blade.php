@@ -1,5 +1,5 @@
 @extends('backend.layouts.master')
-@section('title','E-SHOP || All Notifications')
+@section('title','DT-SHOP  || All Notifications')
 @section('main-content')
 <div class="card">
     <div class="row">
@@ -15,8 +15,8 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Time</th>
-          <th scope="col">Title</th>
-          <th scope="col">Action</th>
+          <th scope="col">Tiêu đề</th>
+          <th scope="col">Thao tác</th>
         </tr>
       </thead>
       <tbody>

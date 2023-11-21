@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Post;
 
 use App\Http\Controllers\Controller;
 use App\Models\PostComment;
+use App\Services\Admin\Post\PostCommentService;
 use App\Services\Admin\Post\PostTagService;
 use Illuminate\Http\Request;
 use Notification;
@@ -17,7 +18,7 @@ class PostCommentController extends Controller
      */
     public function index()
     {
-        $comments = PostTagService::getInstance()->listPostComment();
+        $comments = PostCommentService::getInstance()->listPostComment();
 
         return view('backend.comment.index')->with('comments', $comments);
     }
@@ -40,7 +41,7 @@ class PostCommentController extends Controller
      */
     public function store(Request $request)
     {
-        PostTagService::getInstance()->storePostComment($request);
+        PostCommentService::getInstance()->storePostComment($request);
 
         return redirect()->back();
     }
@@ -82,7 +83,7 @@ class PostCommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        PostTagService::getInstance()->updatePostComment($request, $id);
+        PostCommentService::getInstance()->updatePostComment($request, $id);
 
         return redirect()->back();
     }
@@ -95,7 +96,7 @@ class PostCommentController extends Controller
      */
     public function destroy($id)
     {
-        PostTagService::getInstance()->destroyPostComment($id);
+        PostCommentService::getInstance()->destroyPostComment($id);
 
         return redirect()->back();
     }

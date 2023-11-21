@@ -24,7 +24,7 @@ Version:1.0
 12. Login & Register CSS
 13. Cowndown CSS
 14. Shop Services CSS
-15. Newslatter CSS
+15. Nhận bản tin CSS
 16. About Us CSS
 17. Team CSS
 18. Blog CSS
@@ -624,7 +624,7 @@ Version:1.0
 }
 .header.shop .logo {
 	float: left;
-	margin: 19px 0 0;
+	margin: 0;
 }
 .header.shop .top-contact {
 	margin-top:0px;
@@ -737,7 +737,7 @@ Version:1.0
 	top: 0;
 }
 .header.shop .middle-inner {
-	padding: 20px 0;
+	padding: 10px 0;
 	background: #fff;
 	border-top: 1px solid #eee;
 }
@@ -948,7 +948,7 @@ Version:1.0
 	text-transform: capitalize;
 	font-size: 15px;
 	padding: 20px 15px;
-	font-weight: 500;
+	font-weight: 600;
 	display: block;
 	position: relative;
 	-webkit-transition: all 0.4s ease;
@@ -1025,21 +1025,21 @@ Version:1.0
 	float: right;
 	position: relative;
 }
-.header.shop .right-bar .sinlge-bar.top-search a {
+.header.shop .right-bar .single-bar.top-search a {
 	transform: translateY(3px);
 }
-.header.shop .right-bar .sinlge-bar.top-search a:hover {
+.header.shop .right-bar .single-bar.top-search a:hover {
 	color:#4e73df;
 }
-.header.shop .right-bar .sinlge-bar .single-icon{
+.header.shop .right-bar .single-bar .single-icon{
 	color:#333;
 	font-size:20px;
 	position:relative;
 }
-.header.shop .right-bar .sinlge-bar .single-icon:hover{
+.header.shop .right-bar .single-bar .single-icon:hover{
 	color:#4e73df;
 }
-.header.shop .right-bar .sinlge-bar .single-icon .total-count {
+.header.shop .right-bar .single-bar .single-icon .total-count {
 	position: absolute;
 	top: -7px;
 	right: -8px;
@@ -1052,14 +1052,14 @@ Version:1.0
 	border-radius: 100%;
 	font-size: 11px;
 }
-.header.shop .right-bar .sinlge-bar{
+.header.shop .right-bar .single-bar{
 	display:inline-block;
 	margin-right:25px;
 }
-.header.shop .right-bar .sinlge-bar:last-child{
+.header.shop .right-bar .single-bar:last-child{
 	margin-right:0px;
 }
-.header.shop .right-bar .sinlge-bar li a:hover{
+.header.shop .right-bar .single-bar li a:hover{
 	color:#4e73df;
 }
 .mobile-search{
@@ -1744,7 +1744,7 @@ Version:1.0
 	color:#fff;
 	border-color:transparent;
 }
-/* Sinlge Product */
+/* single Product */
 .single-product{
 	margin-top:50px;
 }
@@ -2160,7 +2160,7 @@ Version:1.0
 .shop-sidebar .categor-list li a:hover{
 	color:#4e73df;
 }
-/* Recent Post */
+/* Bài Viết Gần Đây */
 .shop-sidebar .single-post {
 	position: relative;
 	margin-top: 30px;
@@ -4181,7 +4181,7 @@ Version:1.0
 	opacity:1;
 	visibility:visible;
 }
-/* Recent Post */
+/* Bài Viết Gần Đây */
 .main-sidebar .recent-post{}
 .main-sidebar .single-post {
 	position: relative;
@@ -4260,7 +4260,7 @@ Version:1.0
 	background:#4e73df;
 	border-color:transparent;
 }
-/* Blog Newslatter CSS */
+/* Blog Nhận bản tin CSS */
 .main-sidebar .newsletter{
 
 }

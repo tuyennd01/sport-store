@@ -10,7 +10,7 @@
       @csrf
       @method('PATCH')
       <div class="form-group">
-        <label for="status">Status :</label>
+        <label for="status">Trạng thái :</label>
         <select name="status" id="" class="form-control">
           <option value="new" {{($order->status=='delivered' || $order->status=="process" || $order->status=="cancel") ? 'disabled' : ''}}  {{(($order->status=='new')? 'selected' : '')}}>New</option>
           <option value="process" {{($order->status=='delivered'|| $order->status=="cancel") ? 'disabled' : ''}}  {{(($order->status=='process')? 'selected' : '')}}>process</option>
@@ -18,7 +18,7 @@
           <option value="cancel" {{($order->status=='delivered') ? 'disabled' : ''}}  {{(($order->status=='cancel')? 'selected' : '')}}>Cancel</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary">Update</button>
+      <button type="submit" class="btn btn-primary">Cập nhật</button>
     </form>
   </div>
 </div>

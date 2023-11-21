@@ -9,26 +9,26 @@
 						<!-- Single Widget -->
 						<div class="single-footer about">
 							<div class="logo">
-								<a href="index.html"><img src="{{asset('backend/img/logo2.png')}}" alt="#"></a>
+								<a href="index.html"><img class="w-50" src="{{asset('backend/img/3.png')}}" alt="#"></a>
 							</div>
 							@php
 								$settings=DB::table('settings')->get();
 							@endphp
-							<p class="text">@foreach($settings as $data) {{$data->short_des}} @endforeach</p>
-							<p class="call">Got Question? Call us 24/7<span><a href="tel:123456789">@foreach($settings as $data) {{$data->phone}} @endforeach</a></span></p>
+							<p class="text-white">DTShop kỳ vọng sẽ xây dựng được một tổ chức cởi mở, một môi trường năng động với một văn hóa riêng. Và ở đó các bạn trẻ sẽ phát huy hết khả năng của mình, và nhận được những phần lương, thưởng xứng đáng</p>
+							<p class="call">Bạn có câu hỏi gì không, hãy liên hệ qua số: <span><a href="tel:123456789">@foreach($settings as $data) {{$data->phone}} @endforeach</a></span></p>
 						</div>
 						<!-- End Single Widget -->
 					</div>
 					<div class="col-lg-2 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer links">
-							<h4>Information</h4>
+							<h4>Thông tin</h4>
 							<ul>
-								<li><a href="{{route('about-us')}}">About Us</a></li>
+								<li><a href="{{route('about-us')}}">Giới thiệu</a></li>
 								<li><a href="#">Faq</a></li>
 								<li><a href="#">Terms & Conditions</a></li>
-								<li><a href="{{route('contact')}}">Contact Us</a></li>
-								<li><a href="#">Help</a></li>
+								<li><a href="{{route('contact')}}">Liên hệ với chúng tôi</a></li>
+								<li><a href="#">Trợ giúp</a></li>
 							</ul>
 						</div>
 						<!-- End Single Widget -->
@@ -36,13 +36,12 @@
 					<div class="col-lg-2 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer links">
-							<h4>Customer Service</h4>
+							<h4>Dịch vụ</h4>
 							<ul>
-								<li><a href="#">Payment Methods</a></li>
-								<li><a href="#">Money-back</a></li>
-								<li><a href="#">Returns</a></li>
-								<li><a href="#">Shipping</a></li>
-								<li><a href="#">Privacy Policy</a></li>
+								<li><a href="#">Thanh toán</a></li>
+								<li><a href="#">Hoàn tiền</a></li>
+								<li><a href="#">Giao hàng</a></li>
+								<li><a href="#">Chính sách</a></li>
 							</ul>
 						</div>
 						<!-- End Single Widget -->
@@ -50,7 +49,7 @@
 					<div class="col-lg-3 col-md-6 col-12">
 						<!-- Single Widget -->
 						<div class="single-footer social">
-							<h4>Get In Tuch</h4>
+							<h4>Liên lạc</h4>
 							<!-- Single Widget -->
 							<div class="contact">
 								<ul>
@@ -60,7 +59,7 @@
 								</ul>
 							</div>
 							<!-- End Single Widget -->
-							
+
 						</div>
 						<!-- End Single Widget -->
 					</div>
@@ -72,14 +71,9 @@
 			<div class="container">
 				<div class="inner">
 					<div class="row">
-						<div class="col-lg-6 col-12">
+						<div class="col-lg-12 col-12">
 							<div class="left">
-								<p>Copyright © {{date('Y')}} <a href="fb.com" target="_blank">NTH</a>  -  All Rights Reserved.</p>
-							</div>
-						</div>
-						<div class="col-lg-6 col-12">
-							<div class="right">
-								<img src="{{asset('backend/img/payments.png')}}" alt="#">
+								<p>Copyright © {{date('Y')}} <a href="https://www.facebook.com/blue.cfcvn/" target="_blank">NDT</a>  -  All Rights Reserved.</p>
 							</div>
 						</div>
 					</div>
@@ -88,7 +82,7 @@
 		</div>
 	</footer>
 	<!-- /End Footer Area -->
- 
+
 	<!-- Jquery -->
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
     <script src="{{asset('frontend/js/jquery-migrate-3.0.0.js')}}"></script>
@@ -125,7 +119,7 @@
 	<!-- Active JS -->
 	<script src="{{asset('frontend/js/active.js')}}"></script>
 
-	
+
 	@stack('scripts')
 	<script>
 		setTimeout(function(){

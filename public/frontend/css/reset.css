@@ -1,16 +1,6 @@
-/* =====================================
-Template Name: Eshop
-Author Name: Naimur Rahman
-Author URI: http://www.wpthemesgrid.com/
-Description: Eshop - eCommerce HTML5 Template.
-Version:1.0
-========================================*/
-
-/*--------------------------------------------------------------
-# Normalize
---------------------------------------------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap');
 html {
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Nunito', sans-serif !important;
 	-moz-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
@@ -171,8 +161,8 @@ select,
 optgroup,
 textarea {
 	color: #424646;
-    font-family: 'Poppins', sans-serif;
-	font-weight:400;
+    font-family: 'Nunito', sans-serif;
+	font-weight:700;
 	font-size: 14px;
 	line-height: 24px;
 }
@@ -264,7 +254,7 @@ big {
 	color: #666;
 }
 .container{
-	max-width:1170px;
+	max-width:1350px;
 }
 .overlay{
 	position:relative

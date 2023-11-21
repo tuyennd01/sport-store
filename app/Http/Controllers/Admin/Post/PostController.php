@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\PostTag;
+use App\Services\Admin\Post\PostService;
 use App\Services\Admin\Post\PostTagService;
 use App\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = PostTagService::getInstance()->listPost();
+        $posts = PostService::getInstance()->listPost();
 
         return view('backend.post.index')->with('posts', $posts);
     }
@@ -58,7 +59,7 @@ class PostController extends Controller
             'status' => 'required|in:active,inactive'
         ]);
 
-        PostTagService::getInstance()->storePost($request);
+        PostService::getInstance()->storePost($request);
 
         return redirect()->route('post.index');
     }
@@ -111,7 +112,7 @@ class PostController extends Controller
             'status' => 'required|in:active,inactive'
         ]);
 
-        PostTagService::getInstance()->updatePost($request, $id);
+        PostService::getInstance()->updatePost($request, $id);
 
         return redirect()->route('post.index');
     }
@@ -124,7 +125,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-       PostTagService::getInstance()->destroyPost($id);
+        PostService::getInstance()->destroyPost($id);
 
         return redirect()->route('post.index');
     }
