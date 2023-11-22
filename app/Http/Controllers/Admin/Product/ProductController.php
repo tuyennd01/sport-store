@@ -62,7 +62,7 @@ class ProductController extends Controller
             'discount' => 'nullable|numeric'
         ]);
 
-        ReviewProductService::getInstance()->storeProduct($request);
+        ProductService::getInstance()->storeProduct($request);
 
         return redirect()->route('product.index');
 
@@ -123,7 +123,7 @@ class ProductController extends Controller
             'discount' => 'nullable|numeric'
         ]);
 
-        ReviewProductService::getInstance()->updateProduct($request, $id);
+        ProductService::getInstance()->updateProduct($request, $id);
 
         return redirect()->route('product.index');
     }
@@ -136,7 +136,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        ReviewProductService::getInstance()->destroyProduct($id);
+        ProductService::getInstance()->destroyProduct($id);
 
         return redirect()->route('product.index');
     }
