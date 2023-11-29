@@ -135,6 +135,7 @@
   function drawChart()
   {
       var data = google.visualization.arrayToDataTable(analytics);
+      console.log(data)
       var options = {
           title : 'Số lượng người dùng trong 7 ngày qua'
       };

@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary float-left">Order Lists</h6>
+            <h6 class="m-0 font-weight-bold text-primary float-left">Danh sách đơn hàng</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -80,9 +80,10 @@
                                         @csrf
                                         @method('delete')
                                         <button class="btn btn-danger btn-sm dltBtn"
-                                                data-id={{$order->id}} style="height:30px; width:30px;border-radius:50%
-                                        " data-toggle="tooltip" data-placement="bottom" title="Delete"><i
-                                            class="fas fa-trash-alt"></i></button>
+                                                data-id={{$order->id}} style=" height:30px; width:30px ;border-radius:50%"
+                                                data-toggle="tooltip" data-placement="bottom" title="Delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

@@ -10,7 +10,7 @@ use App\Models\PostComment;
 use App\Rules\MatchOldPassword;
 use Hash;
 
-class FHomeController extends Controller
+class HomeController extends Controller
 {
     /**
      * Create a new controller instance.

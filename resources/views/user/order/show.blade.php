@@ -29,7 +29,7 @@
             <td>{{$order->first_name}} {{$order->last_name}}</td>
             <td>{{$order->email}}</td>
             <td>{{$order->quantity}}</td>
-            <td>{{$order->shipping->price}} VND</td>
+            <td>{{isset($order->shipping->price) ?? $order->shipping->price}} VND</td>
             <td>{{number_format($order->total_amount)}} vnd</td>
             <td>
                 @if($order->status=='new')
