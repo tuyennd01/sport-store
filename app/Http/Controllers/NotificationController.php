@@ -27,7 +27,7 @@ class NotificationController extends Controller
         if ($notification) {
             $status = $notification->delete();
             if ($status) {
-                request()->session()->flash('success', 'Notification successfully deleted');
+                request()->session()->flash('success', 'Đã xóa thông báo thành công');
                 return back();
             } else {
                 request()->session()->flash('error', 'Error please try again');

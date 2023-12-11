@@ -48,7 +48,7 @@ class HomeController extends Controller
         $data = $request->all();
         $status = $user->fill($data)->save();
         if ($status) {
-            request()->session()->flash('success', 'Successfully updated your profile');
+            request()->session()->flash('success', 'Cập nhật thành công hồ sơ cá nhân');
         } else {
             request()->session()->flash('error', 'Please try again!');
         }
@@ -71,9 +71,9 @@ class HomeController extends Controller
             } else {
                 $status = $order->delete();
                 if ($status) {
-                    request()->session()->flash('success', 'Order Successfully deleted');
+                    request()->session()->flash('success', 'Đơn hàng đã được xóa thành công');
                 } else {
-                    request()->session()->flash('error', 'Order can not deleted');
+                    request()->session()->flash('error', 'Đơn hàng không thể xóa được');
                 }
                 return redirect()->route('user.order.index');
             }
@@ -118,7 +118,7 @@ class HomeController extends Controller
             $data = $request->all();
             $status = $review->fill($data)->update();
             if ($status) {
-                request()->session()->flash('success', 'Review Successfully updated');
+                request()->session()->flash('success', 'Đánh giá đã cập nhật thành công');
             } else {
                 request()->session()->flash('error', 'Something went wrong! Please try again!!');
             }
@@ -159,7 +159,7 @@ class HomeController extends Controller
         if ($comment) {
             $status = $comment->delete();
             if ($status) {
-                request()->session()->flash('success', 'Post Comment successfully deleted');
+                request()->session()->flash('success', 'Bình luận đã được xóa thành công');
             } else {
                 request()->session()->flash('error', 'Error occurred please try again');
             }
@@ -196,7 +196,7 @@ class HomeController extends Controller
             // return $data;
             $status = $comment->fill($data)->update();
             if ($status) {
-                request()->session()->flash('success', 'Comment successfully updated');
+                request()->session()->flash('success', 'Bình luận được cập nhật thành công');
             } else {
                 request()->session()->flash('error', 'Something went wrong! Please try again!!');
             }
@@ -223,7 +223,7 @@ class HomeController extends Controller
 
         User::find(auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);
 
-        return redirect()->route('user')->with('success', 'Password successfully changed');
+        return redirect()->route('user')->with('success', 'Mật khẩu đã được thay đổi thành công');
     }
 
 

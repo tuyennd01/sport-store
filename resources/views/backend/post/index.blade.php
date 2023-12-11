@@ -52,7 +52,7 @@
                 <tr>
                     <td>{{$post->id}}</td>
                     <td>{{$post->title}}</td>
-                    <td>{{$post->cat_info->title}}</td>
+                    <td>{{isset($post->cat_info->title) ? $post->cat_info->title : ''}}</td>
                     <td>{{$post->tags}}</td>
 
                     <td>
@@ -151,8 +151,8 @@
               // alert(dataID);
               e.preventDefault();
               swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this data!",
+                    title: "Bạn có chắc không?",
+                    text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu này!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,

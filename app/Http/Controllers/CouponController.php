@@ -47,7 +47,7 @@ class CouponController extends Controller
         $data = $request->all();
         $status = Coupon::create($data);
         if ($status) {
-            request()->session()->flash('success', 'Coupon Successfully added');
+            request()->session()->flash('success', 'Phiếu giảm giá đã được thêm thành công');
         } else {
             request()->session()->flash('error', 'Please try again!!');
         }
@@ -100,7 +100,7 @@ class CouponController extends Controller
 
         $status = $coupon->fill($data)->save();
         if ($status) {
-            request()->session()->flash('success', 'Coupon Successfully updated');
+            request()->session()->flash('success', 'Phiếu giảm giá đã được thêm thành công');
         } else {
             request()->session()->flash('error', 'Please try again!!');
         }
@@ -120,7 +120,7 @@ class CouponController extends Controller
         if ($coupon) {
             $status = $coupon->delete();
             if ($status) {
-                request()->session()->flash('success', 'Coupon successfully deleted');
+                request()->session()->flash('success', 'Phiếu giảm giá đã được xóa thành công');
             } else {
                 request()->session()->flash('error', 'Error, Please try again');
             }
@@ -148,7 +148,7 @@ class CouponController extends Controller
                 'code' => $coupon->code,
                 'value' => $coupon->discount($total_price)
             ]);
-            request()->session()->flash('success', 'Coupon successfully applied');
+            request()->session()->flash('success', 'Phiếu giảm giá được áp dụng thành công');
             return redirect()->back();
         }
     }

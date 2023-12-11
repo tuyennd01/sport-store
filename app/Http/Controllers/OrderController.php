@@ -129,19 +129,19 @@ class OrderController extends Controller
         $order = Order::where('user_id', auth()->user()->id)->where('order_number', $request->order_number)->first();
         if ($order) {
             if ($order->status == "new") {
-                request()->session()->flash('success', 'Your order has been placed. please wait.');
+                request()->session()->flash('success', 'Đơn hàng của bạn đã được đặt. Vui lòng chờ.');
                 return redirect()->route('home');
 
             } elseif ($order->status == "process") {
-                request()->session()->flash('success', 'Your order is under processing please wait.');
+                request()->session()->flash('success', 'Đơn hàng của bạn đang được xử lý vui lòng đợi.');
                 return redirect()->route('home');
 
             } elseif ($order->status == "delivered") {
-                request()->session()->flash('success', 'Your order is successfully delivered.');
+                request()->session()->flash('success', 'Đơn hàng của bạn đã được giao thành công.');
                 return redirect()->route('home');
 
             } else {
-                request()->session()->flash('error', 'Your order canceled. please try again');
+                request()->session()->flash('error', 'Đơn đặt hàng của bạn đã bị hủy. vui lòng thử lại');
                 return redirect()->route('home');
 
             }

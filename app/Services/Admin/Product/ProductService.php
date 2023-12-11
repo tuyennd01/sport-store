@@ -17,11 +17,14 @@ class ProductService extends Service
     public function storeProduct($request)
     {
         $data = $request->all();
+        dd($data);
         $slug = Str::slug($request->title);
         $count = Product::where('slug', $slug)->count();
 
         if ($count > 0) {
-            $slug = $slug . '-' . date('ymdis') . '-' . rand(0, 999);
+            request()->session()->flash('error', 'Sản phẩm đã tồn tại');
+
+            return;
         }
 
         $data['slug'] = $slug;

@@ -43,8 +43,8 @@
             @foreach($reviews as $review)
                 <tr>
                     <td>{{$review->id}}</td>
-                    <td>{{$review->user_info['name']}}</td>
-                    <td>{{$review->product->title}}</td>
+                    <td>{{isset($review->user_info['name']) ? $review->user_info['name'] : ''}}</td>
+                    <td>{{isset($review->product->title) ? $review->product->title : ''}}</td>
                     <td>{{$review->review}}</td>
                     <td>
                      <ul style="list-style:none">
@@ -135,8 +135,8 @@
               // alert(dataID);
               e.preventDefault();
               swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this data!",
+                    title: "Bạn có chắc không?",
+                    text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu này!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,

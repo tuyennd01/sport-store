@@ -188,10 +188,10 @@
                 var form = $(this).closest('form');
                 var dataID = $(this).data('id');
                 // alert(dataID);
-                e.preventDefault();
+                e.preventDefault(p);
                 swal({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this data!",
+                    title: "Bạn có chắc không?",
+                    text: "Sau khi xóa, bạn sẽ không thể khôi phục dữ liệu này!",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,

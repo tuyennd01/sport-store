@@ -113,13 +113,13 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        ShippingService::getInstance()->destroyCategory($id);
+        CategoryService::getInstance()->destroyCategory($id);
 
         return redirect()->route('category.index');
     }
 
     public function getChildByParent(Request $request)
     {
-        ShippingService::getInstance()->getChildByParent($request);
+        CategoryService::getInstance()->getChildByParent($request);
     }
 }

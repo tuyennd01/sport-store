@@ -6,7 +6,7 @@
         <div class="single-comment">
             @if($comment->user_info['photo'])
                 <img src="{{$comment->user_info['photo']}}" alt="#">
-            @else 
+            @else
                 <img src="{{asset('backend/img/avatar.png')}}" alt="">
             @endif
             <div class="content">
@@ -16,7 +16,7 @@
                 @if($dep)
                 <div class="button">
                     <a href="#" class="btn btn-reply reply" data-id="{{$comment->id}}"><i class="fa fa-reply" aria-hidden="true"></i>Reply</a>
-                    <a href="" class="btn btn-reply cancel" style="display: none;" ><i class="fa fa-trash" aria-hidden="true"></i>Cancel</a>
+                    <a href="" class="btn btn-reply cancel" style="display: none;" ><i class="fa fa-trash" aria-hidden="true"></i>Hủy</a>
                 </div>
                 @endif
             </div>
@@ -24,5 +24,5 @@
     </div>
     @include('frontend.pages.comment', ['comments' => $comment->replies, 'depth' => $dep])
 
-</div>    
+</div>
 @endforeach

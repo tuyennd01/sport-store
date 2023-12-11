@@ -104,7 +104,7 @@
                                             <span
                                                 class="total-amount">{{number_format(Helper::totalCartPrice())}} VND</span>
                                         </div>
-                                        <a href="{{route('checkout')}}" class="btn animate">Checkout</a>
+                                        <a href="{{route('checkout')}}" class="btn animate">Thanh toán</a>
                                     </div>
                                 </div>
                             @endauth

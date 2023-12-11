@@ -41,7 +41,7 @@
         <div class="form-group">
           <label for="cat_id">Danh mục <span class="text-danger">*</span></label>
           <select name="cat_id" id="cat_id" class="form-control">
-              <option value="">--Select any category--</option>
+              <option value="">--Chọn danh mục sản phẩm--</option>
               @foreach($categories as $key=>$cat_data)
                   <option value='{{$cat_data->id}}'>{{$cat_data->title}}</option>
               @endforeach
@@ -51,7 +51,7 @@
         <div class="form-group d-none" id="child_cat_div">
           <label for="child_cat_id">Sub Danh mục</label>
           <select name="child_cat_id" id="child_cat_id" class="form-control">
-              <option value="">--Select any category--</option>
+              <option value="">--Chọn danh mục sản phẩm phụ--</option>
               {{-- @foreach($parent_cats as $key=>$parent_cat)
                   <option value='{{$parent_cat->id}}'>{{$parent_cat->title}}</option>
               @endforeach --}}
@@ -73,23 +73,34 @@
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
-        <div class="form-group">
-          <label for="size">Kích cỡ</label>
-          <select name="size[]" class="form-control selectpicker"  multiple data-live-search="true">
-              <option value="">--Select any size--</option>
-              <option value="S">Small (S)</option>
-              <option value="M">Medium (M)</option>
-              <option value="L">Large (L)</option>
-              <option value="XL">Extra Large (XL)</option>
-          </select>
-        </div>
+          <div class="form-group">
+              <label for="productType">Loại Sản Phẩm</label>
+              <select id="productType" class="form-control">
+                  <option value="clothing">Quần Áo</option>
+                  <option value="shoes">Giày</option>
+                  <option value="others">Dụng Cụ Khác</option>
+              </select>
+          </div>
+
+          <div class="form-group" id="sizeAndQuantity">
+              <label for="size">Kích cỡ</label>
+              <select name="size[]" id="size" class="form-control selectpicker" multiple data-live-search="true">
+                  <!-- Options will be dynamically added based on the selected product type -->
+                  <option value="">--Chọn kích cỡ--</option>
+              </select>
+
+              <div id="quantityInput" style="display: none;">
+                  <label for="quantity">Số Lượng</label>
+                  <div id="sizeQuantities"></div>
+              </div>
+          </div>
 
         <div class="form-group">
           <label for="brand_id">Nhãn hàng</label>
           {{-- {{$brands}} --}}
 
           <select name="brand_id" class="form-control">
-              <option value="">--Select Brand--</option>
+              <option value="">--Chọn nhãn hàng--</option>
              @foreach($brands as $brand)
               <option value="{{$brand->id}}">{{$brand->title}}</option>
              @endforeach
@@ -221,5 +232,80 @@
     else{
     }
   })
+</script>
+<script>
+    $(document).ready(function() {
+        // Sự kiện khi loại sản phẩm thay đổi
+        $("#productType").change(function() {
+            var selectedType = $(this).val();
+            var sizeOptions = $("#size")[0];
+            console.log(sizeOptions)
+            var quantityInput = $("#quantityInput");
+            var sizeQuantities = $("#sizeQuantities");
+
+            // Xóa tất cả các option hiện tại và ô nhập số lượng
+            sizeOptions.find("option").remove();
+            sizeQuantities.empty();
+
+            // Tùy thuộc vào loại sản phẩm, thêm các option phù hợp
+            if (selectedType === "clothing") {
+                addSizeOption("XS");
+                addSizeOption("S");
+                addSizeOption("M");
+                addSizeOption("L");
+                addSizeOption("XL");
+                addSizeOption("XXL");
+                addSizeOption("3XL");
+            } else if (selectedType === "shoes") {
+                for (var i = 36; i <= 43; i++) {
+                    addSizeOption(i.toString());
+                }
+            }
+
+            // Hiển thị ô nhập số lượng nếu có size được chọn
+            if (sizeOptions.val()) {
+                quantityInput.show();
+            } else {
+                quantityInput.hide();
+            }
+
+            // Cập nhật selectpicker
+            sizeOptions.selectpicker('refresh');
+        });
+
+        // Sự kiện khi size được chọn thay đổi
+        $("#size").change(function() {
+            // Hiển thị hoặc ẩn ô nhập số lượng tùy thuộc vào việc có size được chọn hay không
+            if ($(this).val()) {
+                $("#quantityInput").show();
+            } else {
+                $("#quantityInput").hide();
+            }
+
+            // Hiển thị ô nhập số lượng cho từng size được chọn
+            updateSizeQuantities();
+        });
+
+        // Hàm thêm option cho size và số lượng
+        function addSizeOption(size) {
+            sizeOptions.append('<option value="' + size + '">' + size + '</option>');
+            sizeQuantities.append(
+                '<div class="size-quantity">' +
+                '<label for="quantity-' + size + '">Số Lượng (' + size + ')</label>' +
+                '<input type="text" name="quantity-' + size + '" id="quantity-' + size + '" class="form-control">' +
+                '</div>'
+            );
+        }
+
+        // Hàm cập nhật hiển thị số lượng dựa trên size được chọn
+        function updateSizeQuantities() {
+            $(".size-quantity").hide();  // Ẩn tất cả các ô nhập số lượng
+
+            // Hiển thị ô nhập số lượng cho từng size được chọn
+            $.each($("#size").val(), function(index, size) {
+                $("#quantity-" + size).parent().show();
+            });
+        }
+    });
 </script>
 @endpush

@@ -43,9 +43,9 @@ class AdminController extends Controller
         $data = $request->all();
         $status = $user->fill($data)->save();
         if ($status) {
-            request()->session()->flash('success', 'Successfully updated your profile');
+            request()->session()->flash('success', 'Cập nhật hộ sơ thành công');
         } else {
-            request()->session()->flash('error', 'Please try again!');
+            request()->session()->flash('error', 'Vui lòng thử lại!');
         }
 
         return redirect()->back();

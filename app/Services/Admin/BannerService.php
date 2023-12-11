@@ -52,7 +52,7 @@ class BannerService extends Service
         $banner = Banner::findOrFail($id);
         $status = $banner->delete();
         if ($status) {
-            request()->session()->flash('success', 'Banner successfully deleted');
+            request()->session()->flash('success', 'Xóa banner thành công');
         } else {
             request()->session()->flash('error', 'Error occurred while deleting banner');
         }
