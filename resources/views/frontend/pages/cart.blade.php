@@ -30,6 +30,7 @@
 								<th>Sản phẩm</th>
 								<th>Tên</th>
 								<th class="text-center">Đơn giá</th>
+                                <th class="text-center">Size</th>
 								<th class="text-center">Số lượng</th>
 								<th class="text-center">Tổng giá</th>
 								<th class="text-center"><i class="ti-trash remove-icon"></i></th>
@@ -50,6 +51,7 @@
 												<p class="product-des">{!!($cart['summary']) !!}</p>
 											</td>
 											<td class="price" data-title="Price"><span>{{number_format($cart['price'])}} VND</span></td>
+                                            <td class="price">{{$cart['size']}}</td>
 											<td class="qty" data-title="Qty"><!-- Input Order -->
 												<div class="input-group">
 													<div class="button minus">
@@ -59,6 +61,8 @@
 													</div>
 													<input type="text" name="quant[{{$key}}]" class="input-number"  data-min="1" data-max="100" value="{{$cart->quantity}}">
 													<input type="hidden" name="qty_id[]" value="{{$cart->id}}">
+                                                    <input type="hidden" name="size" value="{{$cart['size']}}">
+                                                    <input type="hidden" name="product_id" value="{{$cart['product_id']}}">
 													<div class="button plus">
 														<button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[{{$key}}]">
 															<i class="ti-plus"></i>

@@ -81,18 +81,18 @@ class CartController extends Controller
             return back();
         }
 
-        $already_cart = Cart::where('user_id', auth()->user()->id)->where('order_id', null)->where('product_id', $product->id)->first();
+        $already_cart = Cart::where('user_id', auth()->user()->id)->where('size', $productSize->size)->where('order_id', null)->where('product_id', $product->id)->first();
 
 
-//        if ($already_cart) {
-//            $already_cart->quantity = $already_cart->quantity + $request->quantity;
-//            $already_cart->amount = ($product->price * $request->quantity) + $already_cart->amount;
-//
-//            if ($productSize->stock < $already_cart->quantity || $productSize->stock <= 0) return back()->with('error', 'Hàng tồn kho không đủ!.');
-//
-//            $already_cart->save();
-//
-//        } else {
+        if ($already_cart) {
+            $already_cart->quantity = $already_cart->quantity + $request->quantity;
+            $already_cart->amount = ($product->price * $request->quantity) + $already_cart->amount;
+
+            if ($productSize->stock < $already_cart->quantity || $productSize->stock <= 0) return back()->with('error', 'Hàng tồn kho không đủ!.');
+
+            $already_cart->save();
+
+        } else {
 
             $cart = new Cart;
             $cart->user_id = auth()->user()->id;
@@ -104,7 +104,7 @@ class CartController extends Controller
             if ($productSize->stock < $cart->quantity || $productSize->stock <= 0) return back()->with('error', 'Hàng tồn kho không đ`11ủ!.');
             // return $cart;
             $cart->save();
-//        }
+        }
         request()->session()->flash('success', 'Sản phẩm được thêm vào giỏ hàng thành công');
         return back();
     }
@@ -123,28 +123,22 @@ class CartController extends Controller
 
     public function cartUpdate(Request $request)
     {
-        // dd($request->all());
+        $productSize = ProductSize::where('product_id', $request->product_id)->where('size', $request->size)->first();
+
         if ($request->quant) {
             $error = array();
             $success = '';
-            // return $request->quant;
-            foreach ($request->quant as $k => $quant) {
-                // return $k;
-                $id = $request->qty_id[$k];
-                // return $id;
+            foreach ($request->quant as $index => $quant) {
+                $id = $request->qty_id[$index];
                 $cart = Cart::find($id);
-                // return $cart;
                 if ($quant > 0 && $cart) {
-                    // return $quant;
-
-                    if ($cart->product->stock < $quant) {
-                        request()->session()->flash('error', 'Out of stock');
+                    if ($productSize->stock < $quant) {
+                        request()->session()->flash('error', 'Kho đã hết hàng');
                         return back();
                     }
-                    $cart->quantity = ($cart->product->stock > $quant) ? $quant : $cart->product->stock;
-                    // return $cart;
+                    $cart->quantity = ($productSize->stock > $quant) ? $quant : $productSize->stock;
 
-                    if ($cart->product->stock <= 0) continue;
+                    if ($productSize->stock <= 0) continue;
                     $after_price = ($cart->product->price - ($cart->product->price * $cart->product->discount) / 100);
                     $cart->amount = $after_price * $quant;
                     // return $cart->price;
