@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductSize;
 use App\Models\Shipping;
 use App\Notifications\StatusNotification;
 use App\Services\Service;
@@ -11,7 +13,7 @@ use App\User;
 use Helper;
 use Notification;
 use Illuminate\Support\Str;
-
+use Laravel\Prompts\Prompt;
 
 class OrderService extends Service
 {
@@ -141,7 +143,13 @@ class OrderService extends Service
             session()->forget('cart');
             session()->forget('coupon');
         }
+        $listProduct = Cart::where('user_id', auth()->user()->id)->where('order_id', null)->get('product_id', 'quantity', 'size')->toArray();
         Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+        foreach($listProduct as $item) {
+            $product = ProductSize::where('id', $item['product_id'])->where('size', $item['size'])->first();
+            $product->stock = $product->stock - $item['quantity'];
+            $product->save();
+        }
 
         // dd($users);
         request()->session()->flash('success', 'Sản phẩm của bạn đã đặt hàng thành công');

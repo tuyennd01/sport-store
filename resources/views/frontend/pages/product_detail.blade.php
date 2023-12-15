@@ -52,7 +52,7 @@
 													@endphp
 													@foreach($photo as $data)
 														<li data-thumb="{{$data}}" rel="adjustX:10, adjustY:">
-															<img src="{{$data}}" alt="{{$data}}">
+															<img src="{{$data}}" alt="{{$data}}" style="aspect-ratio:1.3/1;object-fit:cover;">
 														</li>
 													@endforeach
 												</ul>
@@ -369,8 +369,8 @@
                                             @php
                                                 $photo=explode(',',$data->photo);
                                             @endphp
-                                            <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                            <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                            <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}" style="aspect-ratio:1/1.2;object-fit:cover;">
+                                            <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}" style="aspect-ratio:1/1.2;object-fit:cover;">
                                             <span class="price-dec">{{$data->discount}} % Off</span>
                                         </a>
                                         <div class="button-head">
