@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductSize;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -21,15 +22,15 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
-        // dd($request->all());
+         dd($request);
         if (empty($request->slug)) {
-            request()->session()->flash('error', 'Invalid Products');
+            request()->session()->flash('error', 'Không có sản phẩm này');
             return back();
         }
         $product = Product::where('slug', $request->slug)->first();
         // return $product;
         if (empty($product)) {
-            request()->session()->flash('error', 'Invalid Products');
+            request()->session()->flash('error', 'Không có sản phẩm này');
             return back();
         }
 
@@ -63,45 +64,47 @@ class CartController extends Controller
     {
         $request->validate([
             'slug' => 'required',
-            'quant' => 'required',
+            'quantity' => 'required',
+            'size' => 'required'
         ]);
         // dd($request->quant[1]);
 
 
         $product = Product::where('slug', $request->slug)->first();
-        if ($product->stock < $request->quant[1]) {
+        $productSize = ProductSize::where('product_id', $product->id)->where('size', $request->size)->first();
+
+        if ($productSize->stock < $request->quantity) {
             return back()->with('error', 'Hết hàng, bạn có thể thêm sản phẩm khác.');
         }
-        if (($request->quant[1] < 1) || empty($product)) {
+        if (($request->quantity < 1) || empty($product)) {
             request()->session()->flash('error', 'Invalid Products');
             return back();
         }
 
         $already_cart = Cart::where('user_id', auth()->user()->id)->where('order_id', null)->where('product_id', $product->id)->first();
 
-        // return $already_cart;
 
-        if ($already_cart) {
-            $already_cart->quantity = $already_cart->quantity + $request->quant[1];
-            // $already_cart->price = ($product->price * $request->quant[1]) + $already_cart->price ;
-            $already_cart->amount = ($product->price * $request->quant[1]) + $already_cart->amount;
-
-            if ($already_cart->product->stock < $already_cart->quantity || $already_cart->product->stock <= 0) return back()->with('error', 'Stock not sufficient!.');
-
-            $already_cart->save();
-
-        } else {
+//        if ($already_cart) {
+//            $already_cart->quantity = $already_cart->quantity + $request->quantity;
+//            $already_cart->amount = ($product->price * $request->quantity) + $already_cart->amount;
+//
+//            if ($productSize->stock < $already_cart->quantity || $productSize->stock <= 0) return back()->with('error', 'Hàng tồn kho không đủ!.');
+//
+//            $already_cart->save();
+//
+//        } else {
 
             $cart = new Cart;
             $cart->user_id = auth()->user()->id;
             $cart->product_id = $product->id;
             $cart->price = ($product->price - ($product->price * $product->discount) / 100);
-            $cart->quantity = $request->quant[1];
-            $cart->amount = ($product->price * $request->quant[1]);
-            if ($cart->product->stock < $cart->quantity || $cart->product->stock <= 0) return back()->with('error', 'Stock not sufficient!.');
+            $cart->quantity = $request->quantity;
+            $cart->size = $productSize->size;
+            $cart->amount = ($product->price * $request->quantity);
+            if ($productSize->stock < $cart->quantity || $productSize->stock <= 0) return back()->with('error', 'Hàng tồn kho không đ`11ủ!.');
             // return $cart;
             $cart->save();
-        }
+//        }
         request()->session()->flash('success', 'Sản phẩm được thêm vào giỏ hàng thành công');
         return back();
     }
