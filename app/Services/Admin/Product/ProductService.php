@@ -16,8 +16,7 @@ class ProductService extends Service
 
     public function storeProduct($request)
     {
-        $data = $request->all();
-        dd($data);
+        $data = $request->only('title','summary', 'files', 'description', 'is_featured', 'cat_id', 'child_cat_id','original_price', 'price', 'discount', 'brand_id', 'condition', 'photo', 'status');
         $slug = Str::slug($request->title);
         $count = Product::where('slug', $slug)->count();
 
@@ -29,15 +28,20 @@ class ProductService extends Service
 
         $data['slug'] = $slug;
         $data['is_featured'] = $request->input('is_featured', 0);
-        $size = $request->input('size');
+        $sizes = $request->input('sizes');
 
-        if ($size) {
-            $data['size'] = implode(',', $size);
-        } else {
-            $data['size'] = '';
-        }
 
         $status = Product::create($data);
+
+        foreach ($sizes as $size => $quantity) {
+            // Include the 'product_id' when creating the size record
+            $status->product_sizes()->create([
+                'size' => $size,
+                'stock' => $quantity,
+                'product_id' => $status->id,
+            ]);
+        }
+
 
         if ($status) {
             request()->session()->flash('success', 'Thêm sản phẩm thành công');

@@ -50,8 +50,6 @@ class ProductController extends Controller
             'summary' => 'string|required',
             'description' => 'string|nullable',
             'photo' => 'string|required',
-            'size' => 'nullable',
-            'stock' => "required|numeric",
             'cat_id' => 'required|exists:categories,id',
             'brand_id' => 'nullable|exists:brands,id',
             'child_cat_id' => 'nullable|exists:categories,id',
@@ -59,6 +57,7 @@ class ProductController extends Controller
             'status' => 'required|in:active,inactive',
             'condition' => 'required|in:default,new,hot',
             'price' => 'required|numeric',
+            'original_price' => 'required|numeric',
             'discount' => 'nullable|numeric'
         ]);
 

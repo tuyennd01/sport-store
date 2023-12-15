@@ -7,7 +7,7 @@ use App\Models\Cart;
 
 class Product extends Model
 {
-  protected $fillable = ['title', 'slug', 'summary', 'description', 'cat_id', 'child_cat_id', 'price', 'brand_id', 'discount', 'status', 'photo', 'size', 'stock', 'is_featured', 'condition'];
+  protected $fillable = ['title', 'slug', 'summary', 'description', 'cat_id', 'child_cat_id','original_price', 'price', 'brand_id', 'discount', 'status', 'photo', 'is_featured', 'condition'];
 
   public function cat_info()
   {
@@ -21,7 +21,7 @@ class Product extends Model
 
   public static function getAllProduct()
   {
-    return Product::with(['cat_info', 'sub_cat_info'])->orderBy('id', 'desc')->paginate(10);
+    return Product::with(['cat_info', 'sub_cat_info', 'product_sizes'])->orderBy('id', 'desc')->paginate(10);
   }
 
   public function rel_prods()
@@ -63,4 +63,7 @@ class Product extends Model
     return $this->hasOne(Brand::class, 'id', 'brand_id');
   }
 
+    public function product_sizes(){
+        return $this->hasMany('App\Models\ProductSize');
+    }
 }

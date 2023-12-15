@@ -3,7 +3,7 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Thêm Product</h5>
+    <h5 class="card-header">Thêm sản phẩm</h5>
     <div class="card-body">
       <form method="post" action="{{route('product.store')}}">
         {{csrf_field()}}
@@ -57,10 +57,17 @@
               @endforeach --}}
           </select>
         </div>
+          <div class="form-group">
+              <label for="price" class="col-form-label">Giá nhập vào(VND) <span class="text-danger">*</span></label>
+              <input id="price" type="number" name="original_price" placeholder="Nhập giá"  value="{{old('price')}}" class="form-control">
+              @error('price')
+              <span class="text-danger">{{$message}}</span>
+              @enderror
+          </div>
 
         <div class="form-group">
-          <label for="price" class="col-form-label">Giá(VND) <span class="text-danger">*</span></label>
-          <input id="price" type="number" name="price" placeholder="Enter price"  value="{{old('price')}}" class="form-control">
+          <label for="price" class="col-form-label">Giá bán ra(VND) <span class="text-danger">*</span></label>
+          <input id="price" type="number" name="price" placeholder="Nhập giá"  value="{{old('price')}}" class="form-control">
           @error('price')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -75,24 +82,19 @@
         </div>
           <div class="form-group">
               <label for="productType">Loại Sản Phẩm</label>
-              <select id="productType" class="form-control">
+              <select name="typeProduct" id="productType" class="form-control">
+                  <option value="default">Chọn loại sản phẩm</option>
                   <option value="clothing">Quần Áo</option>
                   <option value="shoes">Giày</option>
                   <option value="others">Dụng Cụ Khác</option>
               </select>
           </div>
 
-          <div class="form-group" id="sizeAndQuantity">
-              <label for="size">Kích cỡ</label>
-              <select name="size[]" id="size" class="form-control selectpicker" multiple data-live-search="true">
-                  <!-- Options will be dynamically added based on the selected product type -->
-                  <option value="">--Chọn kích cỡ--</option>
-              </select>
+          <div id="additionalFields" style="display: none;">
+              <label for="sizeOptions">Chọn Size:</label><br>
+              <div id="sizeOptions"></div>
 
-              <div id="quantityInput" style="display: none;">
-                  <label for="quantity">Số Lượng</label>
-                  <div id="sizeQuantities"></div>
-              </div>
+              <div id="quantityInputs"></div>
           </div>
 
         <div class="form-group">
@@ -234,78 +236,74 @@
   })
 </script>
 <script>
-    $(document).ready(function() {
-        // Sự kiện khi loại sản phẩm thay đổi
-        $("#productType").change(function() {
-            var selectedType = $(this).val();
-            var sizeOptions = $("#size")[0];
-            console.log(sizeOptions)
-            var quantityInput = $("#quantityInput");
-            var sizeQuantities = $("#sizeQuantities");
+    $(document).ready(function () {
+        $("#productType").change(function () {
+            var selectedProduct = $(this).val();
+            $("#additionalFields").hide();
 
-            // Xóa tất cả các option hiện tại và ô nhập số lượng
-            sizeOptions.find("option").remove();
-            sizeQuantities.empty();
-
-            // Tùy thuộc vào loại sản phẩm, thêm các option phù hợp
-            if (selectedType === "clothing") {
-                addSizeOption("XS");
-                addSizeOption("S");
-                addSizeOption("M");
-                addSizeOption("L");
-                addSizeOption("XL");
-                addSizeOption("XXL");
-                addSizeOption("3XL");
-            } else if (selectedType === "shoes") {
-                for (var i = 36; i <= 43; i++) {
-                    addSizeOption(i.toString());
-                }
-            }
-
-            // Hiển thị ô nhập số lượng nếu có size được chọn
-            if (sizeOptions.val()) {
-                quantityInput.show();
+            if (selectedProduct === "clothing" || selectedProduct === "shoes") {
+                generateSizeOptions(selectedProduct);
+                $("#additionalFields").show();
+            } else if (selectedProduct === "other") {
+                $("#additionalFields").show();
+                $("#sizeOptions").empty();
+                $("#quantityInputs").html('<label for="quantityOther">Số Lượng:</label>' +
+                    '<input type="number" id="quantityOther" class="form-control">');
             } else {
-                quantityInput.hide();
+                // Reset fields if another option is selected
+                $("#sizeOptions").empty();
+                $("#quantityInputs").empty();
             }
-
-            // Cập nhật selectpicker
-            sizeOptions.selectpicker('refresh');
         });
 
-        // Sự kiện khi size được chọn thay đổi
-        $("#size").change(function() {
-            // Hiển thị hoặc ẩn ô nhập số lượng tùy thuộc vào việc có size được chọn hay không
-            if ($(this).val()) {
-                $("#quantityInput").show();
-            } else {
-                $("#quantityInput").hide();
-            }
-
-            // Hiển thị ô nhập số lượng cho từng size được chọn
-            updateSizeQuantities();
+        // Use event delegation for dynamically generated checkboxes
+        $(document).on('change', '#sizeOptions input[type="checkbox"]', function () {
+            generateQuantityInputs();
         });
 
-        // Hàm thêm option cho size và số lượng
-        function addSizeOption(size) {
-            sizeOptions.append('<option value="' + size + '">' + size + '</option>');
-            sizeQuantities.append(
-                '<div class="size-quantity">' +
-                '<label for="quantity-' + size + '">Số Lượng (' + size + ')</label>' +
-                '<input type="text" name="quantity-' + size + '" id="quantity-' + size + '" class="form-control">' +
-                '</div>'
-            );
-        }
+        function generateSizeOptions(productType) {
+            var sizes = [];
+            var sizeOptionsContainer = $("#sizeOptions");
+            sizeOptionsContainer.empty();
 
-        // Hàm cập nhật hiển thị số lượng dựa trên size được chọn
-        function updateSizeQuantities() {
-            $(".size-quantity").hide();  // Ẩn tất cả các ô nhập số lượng
+            if (productType === "clothing") {
+                sizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
+            } else if (productType === "shoes") {
+                sizes = ["36", "37", "38", "39", "40", "41", "42", "43"];
+            }
 
-            // Hiển thị ô nhập số lượng cho từng size được chọn
-            $.each($("#size").val(), function(index, size) {
-                $("#quantity-" + size).parent().show();
+            sizes.forEach(function (size) {
+                sizeOptionsContainer.append(
+                    '<input type="checkbox" class="sizeCheckbox" id="size' + size + '"> ' + size
+                );
             });
+
+            $("#quantityInputs").empty();
         }
+
+        function generateQuantityInputs() {
+            var container = $("#quantityInputs");
+            container.empty();
+
+            if ($("#productType").val() === "other") {
+                container.html('<label for="quantityOther">Số Lượng:</label>' +
+                    '<input type="number" name="quantityOther" id="quantityOther" class="form-control">');
+            } else {
+                $(".sizeCheckbox:checked").each(function () {
+                    var size = $(this).attr("id").replace("size", "");
+                    container.append(
+                        '<label for="quantity' + size + '">Nhập số lượng cho size ' + size + ':</label>' +
+                        '<input type="number" name="sizes[' + size + ']" id="quantity' + size + '" class="form-control">' +
+                        '<br>'
+                    );
+                });
+            }
+        }
+
+
+
     });
+
 </script>
+
 @endpush

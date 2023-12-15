@@ -78,12 +78,18 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if($product->stock>0)
+                                    @if($product->product_sizes->count() > 0)
                                         <span class="badge badge-primary">{{$product->stock}}</span>
+                                        <ul class="list-unstyled p-0">
+                                            @foreach($product->product_sizes as $size)
+                                                <li>{{ $size->size }}: {{ $size->stock }}</li>
+                                            @endforeach
+                                        </ul>
                                     @else
-                                        <span class="badge badge-danger">{{$product->stock}}</span>
+                                        <span class="badge badge-danger">0</span>
                                     @endif
                                 </td>
+
                                 <td>
                                     @if($product->photo)
                                         @php

@@ -402,8 +402,8 @@
     @include('frontend.layouts.newsletter')
 
     <!-- Modal -->
-    @if($product_lists)
-        @foreach($product_lists as $key=>$product)
+    @if($products)
+        @foreach($products as $product)
             <div class="modal fade" id="{{$product->id}}" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -456,7 +456,7 @@
                                                 <a href="#"> ({{$rate_count}} customer review)</a>
                                             </div>
                                             <div class="quickview-stock">
-                                                @if($product->stock >0)
+                                                @if($product->product_sizes->count() > 0)
                                                     <span><i class="fa fa-check-circle-o"></i> {{$product->stock}} trong kho </span>
                                                 @else
                                                     <span><i class="fa fa-times-circle-o text-danger"></i> {{$product->stock}} out Trong kho</span>
