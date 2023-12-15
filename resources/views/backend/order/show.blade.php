@@ -80,15 +80,15 @@
                     </tr>
                     <tr>
                         <td>Shipping Charge</td>
-                        <td> : $ {{$order->shipping->price}}</td>
+                        <td> : {{$order->shipping->price}}Đ</td>
                     </tr>
                     <tr>
                       <td>Mã giảm giá</td>
-                      <td> : $ {{number_format($order->coupon,2)}}</td>
+                      <td> : {{number_format($order->coupon,2)}}Đ</td>
                     </tr>
                     <tr>
                         <td>Thành tiền</td>
-                        <td> : $ {{number_format($order->total_amount,2)}}</td>
+                        <td> : {{number_format($order->total_amount,2)}}Đ</td>
                     </tr>
                     <tr>
                         <td>Phương thức thanh toán</td>
@@ -130,6 +130,31 @@
                         <td>Post Code</td>
                         <td> : {{$order->post_code}}</td>
                     </tr>
+              </table>
+            </div>
+          </div>
+
+        <div class="col-lg-6 col-lx-4 mt-4">
+            <div class="shipping-info">
+              <h4 class="text-center pb-4">THÔNG TIN SẢN PHẨM</h4>
+              <table class="table">
+                <tr>
+                    <th>#</th>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th>Loại</th>
+                </tr>
+                @php
+                    $index = 0;
+                @endphp
+                @foreach ($orderProduct as $item)
+                    <tr class="">
+                        <td>{{$index++}}</td>
+                        <td> {{$item['title']}}</td>
+                        <td> {{$item['price']}}Đ</td>
+                        <td> {{$item['type_product']}}</td>
+                    </tr>
+                @endforeach
               </table>
             </div>
           </div>

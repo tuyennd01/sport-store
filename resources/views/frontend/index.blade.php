@@ -116,8 +116,8 @@
                                                         $photo=explode(',',$product->photo);
                                                     // dd($photo);
                                                     @endphp
-                                                    <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                                    <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                                    <img class="default-img" style="aspect-ratio: 1 / 1" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                                    <img class="hover-img" style="aspect-ratio: 1 / 1" src="{{$photo[0]}}" alt="{{$photo[0]}}">
                                                     @if($product->stock<=0)
                                                         <span class="out-of-stock">Sale out</span>
                                                     @elseif($product->condition=='new')
@@ -190,7 +190,7 @@
                                 @php
                                     $photo=explode(',',$data->photo);
                                 @endphp
-                                <img src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                <img src="{{$photo[0]}}" alt="{{$photo[0]}}" style="aspect-ratio:1/1.5;object-fit:cover;">
                                 <div class="content">
                                     <p>{{$data->cat_info['title']}}</p>
                                     <h3>{{$data->title}} <br>Up to<span> {{$data->discount}}%</span></h3>

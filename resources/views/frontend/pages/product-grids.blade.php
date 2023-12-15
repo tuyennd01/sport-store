@@ -171,8 +171,8 @@
                                                     @php
                                                         $photo=explode(',',$product->photo);
                                                     @endphp
-                                                    <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                                    <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                                    <img class="default-img" style="aspect-ratio:1/1.2;object-fit:cover;" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                                    <img class="hover-img"  style="aspect-ratio:1/1.2;object-fit:cover;" src="{{$photo[0]}}" alt="{{$photo[0]}}">
                                                     @if($product->discount)
                                                                 <span class="price-dec">{{$product->discount}} % Off</span>
                                                     @endif
