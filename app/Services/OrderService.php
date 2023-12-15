@@ -43,15 +43,15 @@ class OrderService extends Service
         }
         if ($request->shipping) {
             if (session('coupon')) {
-                $order_data['total_amount'] = Helper::totalCartPrice() + $shipping[0] - session('coupon')['value'];
+                $order_data['total_amount'] = Helper::totalCartPrice() * 100 + $shipping[0] - session('coupon')['value'];
             } else {
-                $order_data['total_amount'] = Helper::totalCartPrice() + $shipping[0];
+                $order_data['total_amount'] = Helper::totalCartPrice() * 100 + $shipping[0];
             }
         } else {
             if (session('coupon')) {
-                $order_data['total_amount'] = Helper::totalCartPrice() - session('coupon')['value'];
+                $order_data['total_amount'] = Helper::totalCartPrice() * 100 - session('coupon')['value'];
             } else {
-                $order_data['total_amount'] = Helper::totalCartPrice();
+                $order_data['total_amount'] = Helper::totalCartPrice() * 100;
             }
         }
         // return $order_data['total_amount'];
