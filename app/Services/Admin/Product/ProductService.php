@@ -16,32 +16,36 @@ class ProductService extends Service
 
     public function storeProduct($request)
     {
-        $data = $request->only('title','summary', 'files', 'description', 'is_featured', 'cat_id', 'child_cat_id','original_price', 'price', 'discount', 'brand_id', 'condition', 'photo', 'status');
+        $data = $request->only('title','type_product','summary', 'files', 'description', 'is_featured', 'cat_id', 'child_cat_id','original_price', 'price', 'discount', 'brand_id', 'condition', 'photo', 'status');
         $slug = Str::slug($request->title);
         $count = Product::where('slug', $slug)->count();
 
         if ($count > 0) {
             request()->session()->flash('error', 'Sản phẩm đã tồn tại');
-
             return;
         }
 
         $data['slug'] = $slug;
         $data['is_featured'] = $request->input('is_featured', 0);
-        $sizes = $request->input('sizes');
-
+        $sizes = $request->input('sizes') !== null ? $request->input('sizes') : '';
 
         $status = Product::create($data);
 
-        foreach ($sizes as $size => $quantity) {
-            // Include the 'product_id' when creating the size record
+        if ($request->type_product === "others") {
             $status->product_sizes()->create([
-                'size' => $size,
-                'stock' => $quantity,
+                'size' => '',
+                'stock' => $request->stock_other_product,
                 'product_id' => $status->id,
             ]);
+        } else {
+            foreach ($sizes as $size => $quantity) {
+                $status->product_sizes()->create([
+                    'size' => $size,
+                    'stock' => $quantity,
+                    'product_id' => $status->id,
+                ]);
+            }
         }
-
 
         if ($status) {
             request()->session()->flash('success', 'Thêm sản phẩm thành công');

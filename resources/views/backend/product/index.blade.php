@@ -21,11 +21,11 @@
                         <tr>
                             <th>STT</th>
                             <th>Tiêu đề</th>
+                            <th>Loại sản phẩm</th>
                             <th>Danh mục</th>
                             <th>Nổi bật</th>
                             <th>Giá</th>
                             <th>Giảm giá</th>
-                            <th>Kích cỡ</th>
                             <th>Tình trạng</th>
                             <th>Nhãn hàng</th>
                             <th>Trong kho</th>
@@ -38,11 +38,11 @@
                         <tr>
                             <th>STT</th>
                             <th>Tiêu đề</th>
+                            <th>Loại sản phẩm</th>
                             <th>Danh mục</th>
                             <th>Nổi bật</th>
                             <th>Giá</th>
                             <th>Giảm giá</th>
-                            <th>Kích cỡ</th>
                             <th>Tình trạng</th>
                             <th>Nhãn hàng</th>
                             <th>Trong kho</th>
@@ -62,6 +62,13 @@
                             <tr>
                                 <td>{{$product->id}}</td>
                                 <td>{{$product->title}}</td>
+                                @if($product->type_product === 'clothing')
+                                    <td>Quần áo</td>
+                                @elseif($product->type_product === 'shoes')
+                                    <td>Giày</td>
+                                @else
+                                    <td>Khác</td>
+                                @endif
                                 <td>{{$product->cat_info['title']}}
                                     <sub>
                                         {{$product->sub_cat_info->title ?? ''}}
@@ -69,8 +76,7 @@
                                 </td>
                                 <td>{{(($product->is_featured==1)? 'Yes': 'No')}}</td>
                                 <td>{{number_format($product->price)}}</td>
-                                <td>  {{$product->discount}}% OFF</td>
-                                <td>{{$product->size}}</td>
+                                <td>  {{$product->discount}}%</td>
                                 <td>{{$product->condition}}</td>
                                 <td>
                                     @if(isset($product->brand->title))
@@ -79,10 +85,13 @@
                                 </td>
                                 <td>
                                     @if($product->product_sizes->count() > 0)
-                                        <span class="badge badge-primary">{{$product->stock}}</span>
                                         <ul class="list-unstyled p-0">
                                             @foreach($product->product_sizes as $size)
-                                                <li>{{ $size->size }}: {{ $size->stock }}</li>
+                                                @if($product->type_product)
+                                                    <li>{{ $size->stock }}</li>
+                                                @else
+                                                    <li> Size {{ $size->size }}: {{ $size->stock }}</li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     @else

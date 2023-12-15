@@ -7,7 +7,7 @@ use App\Models\Cart;
 
 class Product extends Model
 {
-  protected $fillable = ['title', 'slug', 'summary', 'description', 'cat_id', 'child_cat_id','original_price', 'price', 'brand_id', 'discount', 'status', 'photo', 'is_featured', 'condition'];
+  protected $fillable = ['title','type_product', 'slug', 'summary', 'description', 'cat_id', 'child_cat_id','original_price', 'price', 'brand_id', 'discount', 'status', 'photo', 'is_featured', 'condition'];
 
   public function cat_info()
   {
