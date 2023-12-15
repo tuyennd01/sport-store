@@ -3,6 +3,7 @@
 namespace App\Services\Admin\Product;
 
 use App\Models\Product;
+use App\Models\ProductSize;
 use App\Services\Service;
 use Illuminate\Support\Str;
 
@@ -59,15 +60,28 @@ class ProductService extends Service
         $product = Product::findOrFail($id);
         $data = $request->all();
         $data['is_featured'] = $request->input('is_featured', 0);
-        $size = $request->input('size');
-
-        if ($size) {
-            $data['size'] = implode(',', $size);
+        $size = $request->input('sizes') ?? [];
+        // dd($request->all());
+        $sizeData = $request->input('sizes') ? array_keys($request->input('sizes')) : [];
+        ProductSize::where('product_id', $id)->delete();
+        $productData = [];
+        foreach($size as $key => $value) {
+            $productData[] = [
+                'product_id' => $id,
+                'size' => $key,
+                'stock' => $value
+            ];
+        }
+        ProductSize::insert($productData);
+        if ($sizeData) {
+            $data['size'] = implode(',', $sizeData);
         } else {
             $data['size'] = '';
         }
+        // dd($data);
 
         $status = $product->fill($data)->save();
+
 
         if ($status) {
             request()->session()->flash('success', 'Cập nhật sản phẩm thành công');

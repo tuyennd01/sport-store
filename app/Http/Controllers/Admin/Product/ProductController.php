@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductSize;
 use App\Services\Admin\Product\ProductService;
 use App\Services\Admin\Product\ReviewProductService;
 use Illuminate\Http\Request;
@@ -88,11 +89,12 @@ class ProductController extends Controller
     {
         $brand = Brand::get();
         $product = Product::findOrFail($id);
+        $sizes = ProductSize::where('product_id', $id)->pluck('stock','size')->toArray();
         $category = Category::where('is_parent', 1)->get();
         $items = Product::where('id', $id)->get();
         // return $items;
         return view('backend.product.edit')->with('product', $product)
-            ->with('brands', $brand)
+            ->with('brands', $brand)->with('sizes', $sizes)
             ->with('categories', $category)->with('items', $items);
     }
 
@@ -111,7 +113,6 @@ class ProductController extends Controller
             'description' => 'string|nullable',
             'photo' => 'string|required',
             'size' => 'nullable',
-            'stock' => "required|numeric",
             'cat_id' => 'required|exists:categories,id',
             'child_cat_id' => 'nullable|exists:categories,id',
             'is_featured' => 'sometimes|in:1',

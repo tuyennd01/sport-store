@@ -53,6 +53,24 @@
         // dd($sub_cat_info);
 
         @endphp
+
+        <div class="form-group">
+            <label for="productType">Loại Sản Phẩm</label>
+            <select name="type_product" id="productType" class="form-control">
+                <option value="default">Chọn loại sản phẩm</option>
+                <option value="clothing" {{$product->type_product == 'clothing' ? 'selected' : ''}}>Quần Áo</option>
+                <option value="shoes" {{$product->type_product == 'shoes' ? 'selected' : ''}}>Giày</option>
+                <option value="others" {{$product->type_product == 'others' ? 'selected' : ''}}>Dụng Cụ Khác</option>
+            </select>
+        </div>
+
+        <div id="additionalFields" style="display: none;">
+            <label id="select-size" for="sizeOptions">Chọn Size:</label><br>
+            <div id="sizeOptions"></div>
+
+            <div id="quantityInputs"></div>
+        </div>
+
         {{-- {{$product->child_cat_id}} --}}
         <div class="form-group {{(($product->child_cat_id)? '' : 'd-none')}}" id="child_cat_div">
           <label for="child_cat_id">Sub Danh mục</label>
@@ -113,13 +131,6 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label for="stock">Số lượng <span class="text-danger">*</span></label>
-          <input id="quantity" type="number" name="stock" min="0" placeholder="Enter quantity"  value="{{$product->stock}}" class="form-control">
-          @error('stock')
-          <span class="text-danger">{{$message}}</span>
-          @enderror
-        </div>
         <div class="form-group">
           <label for="inputPhoto" class="col-form-label">Ảnh <span class="text-danger">*</span></label>
           <div class="input-group">
@@ -231,5 +242,122 @@
         if(child_cat_id!=null){
             $('#cat_id').change();
         }
+</script>
+
+<script>
+    $(document).ready(function () {
+        var savedQuantityValues = {};
+        var productData = {!! json_encode($product) !!};
+        var sizeData = {!! json_encode($sizes) !!};
+
+
+        function handleChange(selectedProduct) {
+            $("#additionalFields").hide();
+
+            if (selectedProduct === "clothing" || selectedProduct === "shoes") {
+                generateSizeOptions(selectedProduct);
+                $("#additionalFields").show();
+            } else if (selectedProduct === "others") {
+                $("#additionalFields").show();
+                $("#sizeOptions").empty();
+                $("#select-size").hide();
+                $("#quantityInputs").html('<label for="quantityOther">Số Lượng:</label>' +
+                    '<input type="number" name="stock_other_product" id="quantityOther" class="form-control">');
+            } else {
+                // Reset fields if another option is selected
+                savedQuantityValues = {};
+                $("#sizeOptions").empty();
+                $("#quantityInputs").empty();
+            }
+        }
+
+        handleChange(productData.type_product)
+        generateQuantityInputs()
+        var container = $("#quantityInputs");
+        container.empty();
+
+        if ($("#productType").val() === "other") {
+            container.html('<label for="quantityOther">Số Lượng:</label>' +
+                '<input type="number" name="quantityOther" id="quantityOther" class="form-control">');
+        } else {
+            $(".sizeCheckbox:checked").each(function () {
+                var size = $(this).attr("id").replace("size", "");
+                container.append(
+                    '<label for="quantity' + size + '">Nhập số lượng cho size ' + size + ':</label>' +
+                    '<input type="number" name="sizes[' + size + ']" id="quantity' + size + '" class="form-control" value="' + (sizeData[size]) + '">' +
+                    '<br>'
+                );
+            });
+        }
+
+        $("#productType").change(function () {
+            var selectedProduct = $(this).val();
+            handleChange(selectedProduct)
+        });
+
+        // Use event delegation for dynamically generated checkboxes
+        $(document).on('change', '#sizeOptions input[type="checkbox"]', function () {
+            savedQuantityValues = saveQuantityInputs();
+            generateQuantityInputs();
+        });
+
+        function generateSizeOptions(productType) {
+            var data = Object.keys(sizeData)
+            var sizes = [];
+            var sizeOptionsContainer = $("#sizeOptions");
+            sizeOptionsContainer.empty();
+
+            if (productType === "clothing") {
+                sizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
+            } else if (productType === "shoes") {
+                sizes = ["36", "37", "38", "39", "40", "41", "42", "43"];
+            }
+
+            sizes.forEach(function (size) {
+                sizeOptionsContainer.append(
+                    `<input type="checkbox" class="sizeCheckbox" ${data.includes(size) ?  'checked' : ''} id="${size}"> ` + size
+                );
+            });
+
+            $("#quantityInputs").empty();
+            restoreQuantityInputs(savedQuantityValues);
+        }
+
+        function generateQuantityInputs() {
+            var container = $("#quantityInputs");
+            container.empty();
+
+            if ($("#productType").val() === "other") {
+                container.html('<label for="quantityOther">Số Lượng:</label>' +
+                    '<input type="number" name="quantityOther" id="quantityOther" class="form-control">');
+            } else {
+                $(".sizeCheckbox:checked").each(function () {
+                    var size = $(this).attr("id").replace("size", "");
+                    container.append(
+                        '<label for="quantity' + size + '">Nhập số lượng cho size ' + size + ':</label>' +
+                        '<input type="number" name="sizes[' + size + ']" id="quantity' + size + '" class="form-control" value="' + (savedQuantityValues[size] || 0) + '">' +
+                        '<br>'
+                    );
+                });
+            }
+        }
+
+        function saveQuantityInputs() {
+            var savedValues = {};
+            $("#quantityInputs input[type='number']").each(function () {
+                var size = $(this).attr("id").replace("quantity", "");
+                savedValues[size] = $(this).val();
+            });
+            return savedValues;
+        }
+
+        function restoreQuantityInputs(savedValues) {
+            $("#quantityInputs input[type='number']").each(function () {
+                var size = $(this).attr("id").replace("quantity", "");
+                $(this).val(savedValues[size] || 0);
+            });
+        }
+    });
+
 </script>
 @endpush
