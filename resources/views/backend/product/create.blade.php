@@ -237,13 +237,6 @@
         $(document).ready(function () {
             var savedQuantityValues = {};
 
-            // Assume you have the following information available when editing a product
-            var editedProductType = "clothing"; // Replace with the actual product type
-            var editedProductSizes = ["S", "M"]; // Replace with the actual sizes for the edited product
-            var editedProductQuantities = { "S": 10, "M": 15 }; // Replace with the actual quantities for the edited product
-
-            $("#productType").val(editedProductType); // Set the product type dropdown
-
             $("#productType").change(function () {
                 var selectedProduct = $(this).val();
                 $("#additionalFields").hide();
@@ -270,14 +263,6 @@
                 savedQuantityValues = saveQuantityInputs();
                 generateQuantityInputs();
             });
-
-            // Set the selected sizes and quantities when editing the product
-            $("#sizeOptions input[type='checkbox']").each(function () {
-                var size = $(this).attr("id").replace("size", "");
-                $(this).prop("checked", editedProductSizes.includes(size));
-            });
-
-            generateQuantityInputs();
 
             function generateSizeOptions(productType) {
                 var sizes = [];
@@ -312,7 +297,7 @@
                         var size = $(this).attr("id").replace("size", "");
                         container.append(
                             '<label for="quantity' + size + '">Nhập số lượng cho size ' + size + ':</label>' +
-                            '<input type="number" name="sizes[' + size + ']" id="quantity' + size + '" class="form-control" value="' + (editedProductQuantities[size] || 0) + '">' +
+                            '<input type="number" name="sizes[' + size + ']" id="quantity' + size + '" class="form-control" value="' + (savedQuantityValues[size] || 0) + '">' +
                             '<br>'
                         );
                     });
@@ -335,5 +320,7 @@
                 });
             }
         });
+
     </script>
+
 @endpush
