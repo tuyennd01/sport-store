@@ -95,26 +95,11 @@
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
-        <div class="form-group">
-          <label for="size">Kích cỡ</label>
-          <select name="size[]" class="form-control selectpicker"  multiple data-live-search="true">
-              <option value="">--Select any size--</option>
-              @foreach($items as $item)
-                @php
-                $data=explode(',',$item->size);
-                // dd($data);
-                @endphp
-              <option value="S"  @if( in_array( "S",$data ) ) selected @endif>Small</option>
-              <option value="M"  @if( in_array( "M",$data ) ) selected @endif>Medium</option>
-              <option value="L"  @if( in_array( "L",$data ) ) selected @endif>Large</option>
-              <option value="XL"  @if( in_array( "XL",$data ) ) selected @endif>Extra Large</option>
-              @endforeach
-          </select>
-        </div>
+
         <div class="form-group">
           <label for="brand_id">Nhãn hàng</label>
           <select name="brand_id" class="form-control">
-              <option value="">--Select Brand--</option>
+              <option value="">--Chọn nhãn hàng--</option>
              @foreach($brands as $brand)
               <option value="{{$brand->id}}" {{(($product->brand_id==$brand->id)? 'selected':'')}}>{{$brand->title}}</option>
              @endforeach

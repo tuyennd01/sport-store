@@ -87,8 +87,8 @@
                                             @php
                                                 $shipping_charge=DB::table('shippings')->where('id',$order->shipping_id)->pluck('price');
                                             @endphp
-                                            <td>Shipping Charge</td>
-                                            <td> :{{$order->shipping->price}} VND</td>
+                                            <td>Shipping</td>
+                                            <td> :{{isset($order->shipping->price) ?? $order->shipping->price}} VND</td>
                                         </tr>
                                         <tr>
                                             <td>Thành tiền</td>

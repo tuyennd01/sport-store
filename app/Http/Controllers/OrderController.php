@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductSize;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use App\Models\Cart;
@@ -168,5 +169,21 @@ class OrderController extends Controller
     public function incomeChart(Request $request)
     {
         return OrderService::getInstance()->incomeChart($request);
+    }
+
+    public function saveOrderVnpay(Request $request) {
+        $order = $request->query('order_id');
+        Cart::where('user_id', auth()->user()->id)->where('order_id', null)->get('product_id', 'quantity', 'size')->toArray();
+        $listProduct = Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order]);
+        $listProduct = Cart::where('user_id', auth()->user()->id)->where('order_id', $order)->get();
+        foreach($listProduct as $item) {
+            $product = ProductSize::where('product_id', $item['product_id'])->where('size', $item['size'])->first();
+            $product['stock'] = $product['stock'] - $item['quantity'];
+            $product->save();
+        }
+
+        request()->session()->flash('success', 'Sản phẩm của bạn đã đặt hàng thành công');
+
+        return redirect()->route('home');
     }
 }

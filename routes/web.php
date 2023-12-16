@@ -85,6 +85,7 @@ use UniSharp\LaravelFilemanager\Lfm;
     Route::post('cart/order', [OrderController::class, 'store'])->name('cart.order');
     Route::get('order/pdf/{id}', [OrderController::class, 'pdf'])->name('order.pdf');
     Route::get('/income', [OrderController::class, 'incomeChart'])->name('product.order.income');
+    Route::get('/vnpay_payment_success', [OrderController::class, 'saveOrderVnpay'])->name('product.order.save');
 // Route::get('/user/chart',[AdminController::class, 'userPieChart'])->name('user.piechart');
     Route::get('/product-grids', [FrontendController::class, 'productGrids'])->name('product-grids');
     Route::get('/product-lists', [FrontendController::class, 'productLists'])->name('product-lists');

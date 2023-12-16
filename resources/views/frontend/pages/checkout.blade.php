@@ -139,7 +139,7 @@
                                             {{-- <label class="checkbox-inline" for="1"><input name="updates" id="1" type="checkbox"> Check Payments</label> --}}
                                             <form-group>
                                                 <input name="payment_method"  type="radio" value="cod"> <label> Trả tiền khi nhận hàng</label><br>
-                                                <input name="payment_method"  type="radio" value="paypal"> <label> VNpay</label>
+                                                <input name="payment_method"  type="radio" value="vnpay"> <label> VNpay</label>
                                             </form-group>
 
                                         </div>

@@ -22,7 +22,7 @@
                             <th>Người dùng</th>
                             <th>Email</th>
                             <th>Số lượng</th>
-                            <th>Charge</th>
+                            <th>Ship</th>
                             <th>Thành tiền</th>
                             <th>Trạng thái</th>
                             <th>Thao tác</th>
@@ -32,10 +32,10 @@
                         <tr>
                             <th>STT</th>
                             <th>Mã đơn hàng</th>
-                            <th>Người dùng</th>F
+                            <th>Người dùng</th>
                             <th>Email</th>
                             <th>Số lượng</th>
-                            <th>Charge</th>
+                            <th>Ship</th>
                             <th>Thành tiền</th>
                             <th>Trạng thái</th>
                             <th>Thao tác</th>

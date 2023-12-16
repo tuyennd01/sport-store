@@ -79,8 +79,8 @@
                         <td> : {{$order->status}}</td>
                     </tr>
                     <tr>
-                        <td>Shipping Charge</td>
-                        <td> : {{$order->shipping->price}}Đ</td>
+                        <td>Shipping </td>
+                        <td> : {{isset($order->shipping->price) ?? $order->shipping->price}} Đ</td>
                     </tr>
                     <tr>
                       <td>Mã giảm giá</td>
@@ -92,7 +92,7 @@
                     </tr>
                     <tr>
                         <td>Phương thức thanh toán</td>
-                        <td> : @if($order->payment_method=='cod') Cash on Delivery @else Paypal @endif</td>
+                        <td> : @if($order->payment_method=='cod') Thanh toán khi nhận hng @else VNPay @endif</td>
                     </tr>
                     <tr>
                         <td>Tình trạng thanh toán</td>
@@ -121,14 +121,6 @@
                     <tr>
                         <td>Địa chỉ</td>
                         <td> : {{$order->address1}}, {{$order->address2}}</td>
-                    </tr>
-                    <tr>
-                        <td>Quốc gia</td>
-                        <td> : {{$order->country}}</td>
-                    </tr>
-                    <tr>
-                        <td>Post Code</td>
-                        <td> : {{$order->post_code}}</td>
                     </tr>
               </table>
             </div>

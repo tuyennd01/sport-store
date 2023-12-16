@@ -87,7 +87,7 @@
                                     @if($product->product_sizes->count() > 0)
                                         <ul class="list-unstyled p-0">
                                             @foreach($product->product_sizes as $size)
-                                                @if($product->type_product)
+                                                @if($product->type_product === 'others')
                                                     <li>{{ $size->stock }}</li>
                                                 @else
                                                     <li> Size {{ $size->size }}: {{ $size->stock }}</li>
@@ -200,6 +200,7 @@
                 }
             });
             $('.dltBtn').click(function (e) {
+                console.log(123)
                 var form = $(this).closest('form');
                 var dataID = $(this).data('id');
                 // alert(dataID);

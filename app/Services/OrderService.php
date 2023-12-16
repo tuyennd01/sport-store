@@ -43,21 +43,21 @@ class OrderService extends Service
         }
         if ($request->shipping) {
             if (session('coupon')) {
-                $order_data['total_amount'] = Helper::totalCartPrice() * 100 + $shipping[0] - session('coupon')['value'];
+                $order_data['total_amount'] = Helper::totalCartPrice() + $shipping[0] - session('coupon')['value'];
             } else {
-                $order_data['total_amount'] = Helper::totalCartPrice() * 100 + $shipping[0];
+                $order_data['total_amount'] = Helper::totalCartPrice() + $shipping[0];
             }
         } else {
             if (session('coupon')) {
-                $order_data['total_amount'] = Helper::totalCartPrice() * 100 - session('coupon')['value'];
+                $order_data['total_amount'] = Helper::totalCartPrice() - session('coupon')['value'];
             } else {
-                $order_data['total_amount'] = Helper::totalCartPrice() * 100;
+                $order_data['total_amount'] = Helper::totalCartPrice();
             }
         }
         // return $order_data['total_amount'];
         $order_data['status'] = "new";
-        if (request('payment_method') == 'paypal') {
-            $order_data['payment_method'] = 'paypal';
+        if (request('payment_method') == 'vnpay') {
+            $order_data['payment_method'] = 'vnpay';
             $order_data['payment_status'] = 'paid';
         } else {
             $order_data['payment_method'] = 'cod';
@@ -73,20 +73,20 @@ class OrderService extends Service
             'fas' => 'fa-file-alt'
         ];
         Notification::send($users, new StatusNotification($details));
-        if ($request->payment_method == 'paypal') {
+        if ($request->payment_method == 'vnpay') {
             $total = $order->total_amount;
             Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
             session()->forget('cart');
             session()->forget('coupon');
             $bytes = random_bytes(20);
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-            $vnp_Returnurl = route('home');
+            $vnp_Returnurl = "http://127.0.0.1:8000/vnpay_payment_success?" . 'order_id=' . $order['id'];
             $vnp_TmnCode = "F23II7E9";
             $vnp_HashSecret = "IDBGMMVEEJDCAPTBLKHFXHTCUOVZIJZJ";
             $vnp_TxnRef = bin2hex($bytes);
             $vnp_OrderInfo = 'Thanh toán đơn hàng';
             $vnp_OrderType = 'billpayment';
-            $vnp_Amount = $total;
+            $vnp_Amount =  $order_data['total_amount'] * 100;
             $vnp_Locale = 'vn';
             $vnp_BankCode = 'NCB';
             $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -142,17 +142,20 @@ class OrderService extends Service
         } else {
             session()->forget('cart');
             session()->forget('coupon');
-        }
-        $listProduct = Cart::where('user_id', auth()->user()->id)->where('order_id', null)->get('product_id', 'quantity', 'size')->toArray();
-        Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
-        foreach($listProduct as $item) {
-            $product = ProductSize::where('id', $item['product_id'])->where('size', $item['size'])->first();
-            $product->stock = $product->stock - $item['quantity'];
-            $product->save();
-        }
 
-        // dd($users);
-        request()->session()->flash('success', 'Sản phẩm của bạn đã đặt hàng thành công');
+            Cart::where('user_id', auth()->user()->id)->where('order_id', null)->get('product_id', 'quantity', 'size')->toArray();
+            $listProduct = Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+            $listProduct = Cart::where('user_id', auth()->user()->id)->where('order_id', $order->id)->get();
+            foreach($listProduct as $item) {
+                $product = ProductSize::where('product_id', $item['product_id'])->where('size', $item['size'])->first();
+                $product['stock'] = $product['stock'] - $item['quantity'];
+                $product->save();
+            }
+
+            request()->session()->flash('success', 'Sản phẩm của bạn đã đặt hàng thành công');
+
+            return redirect()->route('home');
+        }
     }
 
     public function updateOrder($request, $id)
@@ -160,14 +163,6 @@ class OrderService extends Service
         $data = $request->all();
         $order = Order::find($id);
 
-        if ($request->status == 'delivered') {
-            foreach ($order->cart as $cart) {
-                $product = $cart->product;
-                // return $product;
-                $product->stock -= $cart->quantity;
-                $product->save();
-            }
-        }
         $status = $order->fill($data)->save();
         if ($status) {
             request()->session()->flash('success', 'Cập nhật đơn hàng thành công');
@@ -217,6 +212,7 @@ class OrderService extends Service
             $monthName = date('F', mktime(0, 0, 0, $i, 1));
             $data[$monthName] = (!empty($result[$i])) ? number_format((float)($result[$i]), 2, '.', '') : 0.0;
         }
+
         return $data;
     }
 }
