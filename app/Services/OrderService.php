@@ -160,6 +160,8 @@ class OrderService extends Service
         $data = $request->all();
         $order = Order::find($id);
 
+
+
         if ($request->status == 'delivered') {
             foreach ($order->cart as $cart) {
                 $product = $cart->product;
