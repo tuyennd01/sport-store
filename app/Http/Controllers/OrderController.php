@@ -13,6 +13,7 @@ use Notification;
 use Helper;
 use Illuminate\Support\Str;
 use App\Notifications\StatusNotification;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -71,8 +72,9 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
+        $orderProduct = Cart::join('products', 'products.id', 'carts.product_id')->where('order_id', $id)->select(DB::raw('products.*'))->get()->toArray();
         // return $order;
-        return view('backend.order.show')->with('order', $order);
+        return view('backend.order.show')->with('order', $order)->with('orderProduct', $orderProduct);
     }
 
     /**

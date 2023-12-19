@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductSize;
 use App\Models\Shipping;
 use App\Notifications\StatusNotification;
 use App\Services\Service;
@@ -11,7 +13,7 @@ use App\User;
 use Helper;
 use Notification;
 use Illuminate\Support\Str;
-
+use Laravel\Prompts\Prompt;
 
 class OrderService extends Service
 {
@@ -41,15 +43,15 @@ class OrderService extends Service
         }
         if ($request->shipping) {
             if (session('coupon')) {
-                $order_data['total_amount'] = Helper::totalCartPrice() + $shipping[0] - session('coupon')['value'];
+                $order_data['total_amount'] = Helper::totalCartPrice() * 100 + $shipping[0] - session('coupon')['value'];
             } else {
-                $order_data['total_amount'] = Helper::totalCartPrice() + $shipping[0];
+                $order_data['total_amount'] = Helper::totalCartPrice() * 100 + $shipping[0];
             }
         } else {
             if (session('coupon')) {
-                $order_data['total_amount'] = Helper::totalCartPrice() - session('coupon')['value'];
+                $order_data['total_amount'] = Helper::totalCartPrice() * 100 - session('coupon')['value'];
             } else {
-                $order_data['total_amount'] = Helper::totalCartPrice();
+                $order_data['total_amount'] = Helper::totalCartPrice() * 100;
             }
         }
         // return $order_data['total_amount'];
@@ -71,13 +73,83 @@ class OrderService extends Service
             'fas' => 'fa-file-alt'
         ];
         Notification::send($users, new StatusNotification($details));
-        if (request('payment_method') == 'paypal') {
-            return redirect()->route('payment')->with(['id' => $order->id]);
+        if ($request->payment_method == 'paypal') {
+            $total = $order->total_amount;
+            Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+            session()->forget('cart');
+            session()->forget('coupon');
+            $bytes = random_bytes(20);
+            $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+            $vnp_Returnurl = route('home');
+            $vnp_TmnCode = "F23II7E9";
+            $vnp_HashSecret = "IDBGMMVEEJDCAPTBLKHFXHTCUOVZIJZJ";
+            $vnp_TxnRef = bin2hex($bytes);
+            $vnp_OrderInfo = 'Thanh toán đơn hàng';
+            $vnp_OrderType = 'billpayment';
+            $vnp_Amount = $total;
+            $vnp_Locale = 'vn';
+            $vnp_BankCode = 'NCB';
+            $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+            $inputData = array(
+                "vnp_Version" => "2.1.0",
+                "vnp_TmnCode" => $vnp_TmnCode,
+                "vnp_Amount" => $vnp_Amount,
+                "vnp_Command" => "pay",
+                "vnp_CreateDate" => date('YmdHis'),
+                "vnp_CurrCode" => "VND",
+                "vnp_IpAddr" => $vnp_IpAddr,
+                "vnp_Locale" => $vnp_Locale,
+                "vnp_OrderInfo" => $vnp_OrderInfo,
+                "vnp_OrderType" => $vnp_OrderType,
+                "vnp_ReturnUrl" => $vnp_Returnurl,
+                "vnp_TxnRef" => $vnp_TxnRef,
+            );
+
+            if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+                $inputData['vnp_BankCode'] = $vnp_BankCode;
+            }
+            if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
+                $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+            }
+            ksort($inputData);
+            $query = "";
+            $i = 0;
+            $hashdata = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashdata .= urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+                $query .= urlencode($key) . "=" . urlencode($value) . '&';
+            }
+
+            $vnp_Url = $vnp_Url . "?" . $query;
+            if (isset($vnp_HashSecret)) {
+                $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //
+                $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+            }
+            $returnData = array(
+                'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+            );
+            if (isset($_POST['payment_method'])) {
+                header('Location: ' . $vnp_Url);
+                die();
+            } else {
+                echo json_encode($returnData);
+            }
         } else {
             session()->forget('cart');
             session()->forget('coupon');
         }
+        $listProduct = Cart::where('user_id', auth()->user()->id)->where('order_id', null)->get('product_id', 'quantity', 'size')->toArray();
         Cart::where('user_id', auth()->user()->id)->where('order_id', null)->update(['order_id' => $order->id]);
+        foreach($listProduct as $item) {
+            $product = ProductSize::where('id', $item['product_id'])->where('size', $item['size'])->first();
+            $product->stock = $product->stock - $item['quantity'];
+            $product->save();
+        }
 
         // dd($users);
         request()->session()->flash('success', 'Sản phẩm của bạn đã đặt hàng thành công');
@@ -87,6 +159,8 @@ class OrderService extends Service
     {
         $data = $request->all();
         $order = Order::find($id);
+
+
 
         if ($request->status == 'delivered') {
             foreach ($order->cart as $cart) {
