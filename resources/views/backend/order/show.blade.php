@@ -4,7 +4,7 @@
 
 @section('main-content')
 <div class="card">
-<h5 class="card-header">Order       <a href="{{route('order.pdf',$order->id)}}" class=" btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-sm text-white-50"></i> Generate PDF</a>
+<h5 class="card-header">Chi tiết đơn hàng       <a href="{{route('order.pdf',$order->id)}}" class=" btn btn-sm btn-primary shadow-sm float-right"><i class="fas fa-download fa-sm text-white-50"></i> Generate PDF</a>
   </h5>
   <div class="card-body">
     @if($order)
@@ -12,46 +12,40 @@
       <thead>
         <tr>
             <th>STT</th>
-            <th>Mã đơn hàng</th>
-            <th>Người dùng</th>
-            <th>Email</th>
+            <th>Tên sản phẩm </th>
+            <th>Size</th>
+            <th>Giá</th>
             <th>Số lượng</th>
-            <th>Charge</th>
-            <th>Thành tiền</th>
-            <th>Trạng thái</th>
-            <th>Thao tác</th>
+            <th>Ảnh</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-            <td>{{$order->id}}</td>
-            <td>{{$order->order_number}}</td>
-            <td>{{$order->first_name}} {{$order->last_name}}</td>
-            <td>{{$order->email}}</td>
-            <td>{{$order->quantity}}</td>
-            <td>{{isset($order->shipping->price) ?? $order->shipping->price}} VND</td>
-            <td>{{number_format($order->total_amount)}} VND</td>
-            <td>
-                @if($order->status=='new')
-                    <span class="badge badge-primary">Mới</span>
-                @elseif($order->status=='process')
-                    <span class="badge badge-warning">Đang xử lý</span>
-                @elseif($order->status=='delivered')
-                    <span class="badge badge-success">Đã giao</span>
-                @else
-                    <span class="badge badge-danger">Hủy</span>
-                @endif
-            </td>
-            <td>
-                <a href="{{route('order.edit',$order->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
-                <form method="POST" action="{{route('order.destroy',[$order->id])}}">
-                  @csrf
-                  @method('delete')
-                      <button class="btn btn-danger btn-sm dltBtn" data-id={{$order->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
-                </form>
-            </td>
+      @php
+          $index = 1;
+      @endphp
+        @foreach ($orderProduct as $item)
+            <tr class="">
+                <td>{{$index++}}</td>
+                <td> {{$item['title']}}</td>
+                <td> {{$item['size']}}</td>
+                <td> {{$item['price']}}Đ</td>
+                <td> {{$item['quantity']}}</td>
+                <td>
+                    @if($item['photo'])
+                        @php
+                            $photo=explode(',',$item['photo']);
+                            // dd($photo);
+                        @endphp
+                        <img src="{{$photo[0]}}" class="img-fluid zoom" style="max-width:80px"
+                             alt="{{$item['photo']}}">
+                    @else
+                        <img src="{{asset('backend/img/thumbnail-default.jpg')}}" class="img-fluid"
+                             style="max-width:80px" alt="avatar.png">
+                    @endif
+                </td>
 
-        </tr>
+            </tr>
+            @endforeach
       </tbody>
     </table>
 
@@ -126,30 +120,6 @@
             </div>
           </div>
 
-        <div class="col-lg-6 col-lx-4 mt-4">
-            <div class="shipping-info">
-              <h4 class="text-center pb-4">THÔNG TIN SẢN PHẨM</h4>
-              <table class="table">
-                <tr>
-                    <th>#</th>
-                    <th>Tên</th>
-                    <th>Giá</th>
-                    <th>Loại</th>
-                </tr>
-                @php
-                    $index = 0;
-                @endphp
-                @foreach ($orderProduct as $item)
-                    <tr class="">
-                        <td>{{$index++}}</td>
-                        <td> {{$item['title']}}</td>
-                        <td> {{$item['price']}}Đ</td>
-                        <td> {{$item['type_product']}}</td>
-                    </tr>
-                @endforeach
-              </table>
-            </div>
-          </div>
         </div>
       </div>
     </section>

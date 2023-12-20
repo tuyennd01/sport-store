@@ -73,7 +73,11 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
-        $orderProduct = Cart::join('products', 'products.id', 'carts.product_id')->where('order_id', $id)->select(DB::raw('products.*'))->get()->toArray();
+        $orderProduct = Cart::join('products', 'products.id', 'carts.product_id')
+            ->where('order_id', $id)
+            ->select('products.*', 'carts.size', 'carts.quantity')
+            ->get()
+            ->toArray();
         // return $order;
         return view('backend.order.show')->with('order', $order)->with('orderProduct', $orderProduct);
     }
@@ -160,7 +164,6 @@ class OrderController extends Controller
         $order = Order::getAllOrder($request->id);
         // return $order;
         $file_name = $order->order_number . '-' . $order->first_name . '.pdf';
-        // return $file_name;
         $pdf = PDF::loadview('backend.order.pdf', compact('order'));
         return $pdf->download($file_name);
     }
