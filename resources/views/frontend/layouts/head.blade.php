@@ -36,6 +36,7 @@
 <link rel="stylesheet" href="{{asset('frontend/css/reset.css')}}">
 <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
 <link rel="stylesheet" href="{{asset('frontend/css/responsive.css')}}">
+<script src="//code.tidio.co/3wrpp4cdrbrsh3gkrgq8kkl7uapjqhwz.js" async></script>
 <script>
     var chatbox = document.getElementById('fb-customer-chat');
     chatbox.setAttribute("page_id", "141106609081362");
