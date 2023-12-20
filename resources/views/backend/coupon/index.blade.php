@@ -30,8 +30,8 @@
             <tr>
                 <th>STT</th>
                 <th>Mã giảm giá</th>
-                <thLoại/th>
-                <thGiá trị/th>
+                <th>Loại</th>
+                <th>Giá trị</th>
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
               </tr>
