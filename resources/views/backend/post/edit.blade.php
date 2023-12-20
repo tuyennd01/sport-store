@@ -10,7 +10,7 @@
         @method('PATCH')
         <div class="form-group">
           <label for="inputTitle" class="col-form-label">Tiêu đề <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{$post->title}}" class="form-control">
+          <input id="inputTitle" type="text" name="title" placeholder="Nhập tiêu đề"  value="{{$post->title}}" class="form-control">
           @error('title')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -43,7 +43,7 @@
         <div class="form-group">
           <label for="post_cat_id">Danh mục <span class="text-danger">*</span></label>
           <select name="post_cat_id" class="form-control">
-              <option value="">--Select any category--</option>
+              <option value="">--Chọn danh mục--</option>
               @foreach($categories as $key=>$data)
                   <option value='{{$data->id}}' {{(($data->id==$post->post_cat_id)? 'selected' : '')}}>{{$data->title}}</option>
               @endforeach
@@ -57,7 +57,7 @@
         <div class="form-group">
           <label for="tags">Tag</label>
           <select name="tags[]" multiple  data-live-search="true" class="form-control selectpicker">
-              <option value="">--Select any tag--</option>
+              <option value="">--Chọn tag--</option>
               @foreach($tags as $key=>$data)
 
               <option value="{{$data->title}}"  {{(( in_array( "$data->title",$post_tags ) ) ? 'selected' : '')}}>{{$data->title}}</option>
@@ -78,7 +78,7 @@
           <div class="input-group">
               <span class="input-group-btn">
                   <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                  <i class="fa fa-picture-o"></i> Choose
+                  <i class="fa fa-picture-o"></i> Chọn
                   </a>
               </span>
           <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$post->photo}}">
@@ -124,7 +124,7 @@
 
     $(document).ready(function() {
     $('#summary').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Viết mô tả ngắn...",
         tabsize: 2,
         height: 150
     });
@@ -139,7 +139,7 @@
     });
     $(document).ready(function() {
       $('#description').summernote({
-        placeholder: "Write detail description.....",
+        placeholder: "Viết mô tả ...",
           tabsize: 2,
           height: 150
       });

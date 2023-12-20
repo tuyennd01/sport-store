@@ -10,7 +10,7 @@
         @method('PATCH')
         <div class="form-group">
           <label for="inputTitle" class="col-form-label">Tiêu đề <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{$category->title}}" class="form-control">
+          <input id="inputTitle" type="text" name="title" placeholder="Nhập tiêu đề"  value="{{$category->title}}" class="form-control">
           @error('title')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -34,7 +34,7 @@
       <div class="form-group {{(($category->is_parent==1) ? 'd-none' : '')}}" id='parent_cat_div'>
           <label for="parent_id">Thuộc về</label>
           <select name="parent_id" class="form-control">
-              <option value="">--Select any category--</option>
+              <option value="">--Chọn danh mục--</option>
               @foreach($parent_cats as $key=>$parent_cat)
 
                   <option value='{{$parent_cat->id}}' {{(($parent_cat->id==$category->parent_id) ? 'selected' : '')}}>{{$parent_cat->title}}</option>
@@ -47,7 +47,7 @@
           <div class="input-group">
               <span class="input-group-btn">
                   <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                  <i class="fa fa-picture-o"></i> Choose
+                  <i class="fa fa-picture-o"></i> Chọn
                   </a>
               </span>
           <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$category->photo}}">
@@ -88,7 +88,7 @@
 
     $(document).ready(function() {
     $('#summary').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Viết mô tả ngắn...",
         tabsize: 2,
         height: 150
     });

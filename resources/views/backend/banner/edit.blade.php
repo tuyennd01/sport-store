@@ -10,7 +10,7 @@
         @method('PATCH')
         <div class="form-group">
           <label for="inputTitle" class="col-form-label">Tiêu đề <span class="text-danger">*</span></label>
-        <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{$banner->title}}" class="form-control">
+        <input id="inputTitle" type="text" name="title" placeholder="Nhập tiêu đề"  value="{{$banner->title}}" class="form-control">
         @error('title')
         <span class="text-danger">{{$message}}</span>
         @enderror
@@ -29,7 +29,7 @@
         <div class="input-group">
             <span class="input-group-btn">
                 <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                <i class="fa fa-picture-o"></i> Choose
+                <i class="fa fa-picture-o"></i> Chọn
                 </a>
             </span>
           <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$banner->photo}}">
@@ -70,7 +70,7 @@
 
     $(document).ready(function() {
     $('#description').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Viết mô tả ngắn...",
         tabsize: 2,
         height: 150
     });

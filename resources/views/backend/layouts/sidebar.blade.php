@@ -47,7 +47,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#categoryCollapse" aria-expanded="true" aria-controls="categoryCollapse">
           <i class="fas fa-sitemap"></i>
-          <span>Danh mục</span>
+          <span>Danh mục sản phẩm</span>
         </a>
         <div id="categoryCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -145,7 +145,7 @@
      <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postCategoryCollapse" aria-expanded="true" aria-controls="postCategoryCollapse">
           <i class="fas fa-sitemap fa-folder"></i>
-          <span>Danh mục</span>
+          <span>Danh mục sản phẩm</span>
         </a>
         <div id="postCategoryCollapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">

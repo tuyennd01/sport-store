@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
           <label for="price" class="col-form-label">Giá <span class="text-danger">*</span></label>
-        <input id="price" type="number" name="price" placeholder="Enter price"  value="{{$shipping->price}}" class="form-control">
+        <input id="price" type="number" name="price" placeholder="Nhập giá"  value="{{$shipping->price}}" class="form-control">
         @error('price')
         <span class="text-danger">{{$message}}</span>
         @enderror
@@ -52,7 +52,7 @@
 
     $(document).ready(function() {
     $('#description').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Viết mô tả ngắn...",
         tabsize: 2,
         height: 150
     });

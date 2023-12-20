@@ -10,7 +10,7 @@
         @method('PATCH')
         <div class="form-group">
           <label for="inputTitle" class="col-form-label">Tiêu đề <span class="text-danger">*</span></label>
-          <input id="inputTitle" type="text" name="title" placeholder="Enter title"  value="{{$product->title}}" class="form-control">
+          <input id="inputTitle" type="text" name="title" placeholder="Nhập tiêu đề"  value="{{$product->title}}" class="form-control">
           @error('title')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -42,7 +42,7 @@
         <div class="form-group">
           <label for="cat_id">Danh mục <span class="text-danger">*</span></label>
           <select name="cat_id" id="cat_id" class="form-control">
-              <option value="">--Select any category--</option>
+              <option value="">--Chọn danh mục--</option>
               @foreach($categories as $key=>$cat_data)
                   <option value='{{$cat_data->id}}' {{(($product->cat_id==$cat_data->id)? 'selected' : '')}}>{{$cat_data->title}}</option>
               @endforeach
@@ -82,7 +82,7 @@
 
         <div class="form-group">
           <label for="price" class="col-form-label">Giá(VND) <span class="text-danger">*</span></label>
-          <input id="price" type="number" name="price" placeholder="Enter price"  value="{{$product->price}}" class="form-control">
+          <input id="price" type="number" name="price" placeholder="Nhập giá"  value="{{$product->price}}" class="form-control">
           @error('price')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -90,7 +90,7 @@
 
         <div class="form-group">
           <label for="discount" class="col-form-label">Giảm giá(%)</label>
-          <input id="discount" type="number" name="discount" min="0" max="100" placeholder="Enter discount"  value="{{$product->discount}}" class="form-control">
+          <input id="discount" type="number" name="discount" min="0" max="100" placeholder="Nhập % khuyến mãi"  value="{{$product->discount}}" class="form-control">
           @error('discount')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -109,7 +109,7 @@
         <div class="form-group">
           <label for="condition">Tình trạng</label>
           <select name="condition" class="form-control">
-              <option value="">--Select Condition--</option>
+              <option value="">--Chọn tình trạng--</option>
               <option value="default" {{(($product->condition=='default')? 'selected':'')}}>Default</option>
               <option value="new" {{(($product->condition=='new')? 'selected':'')}}>New</option>
               <option value="hot" {{(($product->condition=='hot')? 'selected':'')}}>Hot</option>
@@ -121,7 +121,7 @@
           <div class="input-group">
               <span class="input-group-btn">
                   <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary text-white">
-                  <i class="fas fa-image"></i> Choose
+                  <i class="fas fa-image"></i> Chọn
                   </a>
               </span>
           <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$product->photo}}">
@@ -166,14 +166,14 @@
 
     $(document).ready(function() {
     $('#summary').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Viết mô tả ngắn...",
         tabsize: 2,
         height: 150
     });
     });
     $(document).ready(function() {
       $('#description').summernote({
-        placeholder: "Write detail Description.....",
+        placeholder: "Viết mô tả ...",
           tabsize: 2,
           height: 150
       });

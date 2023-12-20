@@ -21,7 +21,7 @@
               <th>Đánh giá bởi</th>
               <th>Sản phẩm</th>
               <th>Bình luận</th>
-              <th>Rate</th>
+              <th>Lượng sao</th>
               <th>Ngày</th>
               <th>Trạng thái</th>
               <th>Thao tác</th>
@@ -33,7 +33,7 @@
               <th>Đánh giá bởi</th>
               <th>Sản phẩm</th>
               <th>Bình luận</th>
-              <th>Rate</th>
+              <th>Lượng sao</th>
               <th>Ngày</th>
               <th>Trạng thái</th>
               <th>Thao tác</th>

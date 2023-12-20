@@ -9,7 +9,7 @@
                 {{csrf_field()}}
                 <div class="form-group">
                     <label for="inputTitle" class="col-form-label">Tiêu đề <span class="text-danger">*</span></label>
-                    <input id="inputTitle" type="text" name="title" placeholder="Enter title" value="{{old('title')}}"
+                    <input id="inputTitle" type="text" name="title" placeholder="Nhập tiêu đề" value="{{old('title')}}"
                            class="form-control">
                     @error('title')
                     <span class="text-danger">{{$message}}</span>
@@ -97,7 +97,7 @@
 
                 <div class="form-group">
                     <label for="discount" class="col-form-label">Giảm giá(%)</label>
-                    <input id="discount" type="number" name="discount" min="0" max="100" placeholder="Enter discount"
+                    <input id="discount" type="number" name="discount" min="0" max="100" placeholder="Nhập % khuyến mãi"
                            value="{{old('discount')}}" class="form-control">
                     @error('discount')
                     <span class="text-danger">{{$message}}</span>
@@ -119,7 +119,7 @@
                 <div class="form-group">
                     <label for="condition">Tình trạng</label>
                     <select name="condition" class="form-control">
-                        <option value="">--Select Condition--</option>
+                        <option value="">--Chọn tình trạng--</option>
                         <option value="default">Default</option>
                         <option value="new">New</option>
                         <option value="hot">Hot</option>
@@ -131,7 +131,7 @@
                     <div class="input-group">
               <span class="input-group-btn">
                   <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                  <i class="fa fa-picture-o"></i> Choose
+                  <i class="fa fa-picture-o"></i> Chọn
                   </a>
               </span>
                         <input id="thumbnail" class="form-control" type="text" name="photo" value="{{old('photo')}}">
@@ -177,7 +177,7 @@
 
         $(document).ready(function () {
             $('#summary').summernote({
-                placeholder: "Write short description.....",
+                placeholder: "Viết mô tả ngắn...",
                 tabsize: 2,
                 height: 100
             });
@@ -185,7 +185,7 @@
 
         $(document).ready(function () {
             $('#description').summernote({
-                placeholder: "Write detail description.....",
+                placeholder: "Viết mô tả ...",
                 tabsize: 2,
                 height: 150
             });

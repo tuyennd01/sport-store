@@ -22,7 +22,6 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
-         dd($request);
         if (empty($request->slug)) {
             request()->session()->flash('error', 'Không có sản phẩm này');
             return back();

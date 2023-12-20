@@ -31,7 +31,7 @@ class ReviewProductService extends Service
 
         $user = User::where('role', 'admin')->get();
         $details = [
-            'title' => 'New Product Rating!',
+            'title' => 'Có một đánh giá sản phẩm mới',
             'actionURL' => route('product-detail', $product_info->slug),
             'fas' => 'fa-star'
         ];

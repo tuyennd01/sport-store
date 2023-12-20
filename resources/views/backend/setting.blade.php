@@ -29,7 +29,7 @@
           <div class="input-group">
               <span class="input-group-btn">
                   <a id="lfm1" data-input="thumbnail1" data-preview="holder1" class="btn btn-primary">
-                  <i class="fa fa-picture-o"></i> Choose
+                  <i class="fa fa-picture-o"></i> Chọn
                   </a>
               </span>
           <input id="thumbnail1" class="form-control" type="text" name="logo" value="{{$data->logo}}">
@@ -46,7 +46,7 @@
           <div class="input-group">
               <span class="input-group-btn">
                   <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                  <i class="fa fa-picture-o"></i> Choose
+                  <i class="fa fa-picture-o"></i> Chọn
                   </a>
               </span>
           <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$data->photo}}">
@@ -104,7 +104,7 @@
     $('#lfm1').filemanager('image');
     $(document).ready(function() {
     $('#summary').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Viết mô tả ngắn...",
         tabsize: 2,
         height: 150
     });
@@ -119,7 +119,7 @@
     });
     $(document).ready(function() {
       $('#description').summernote({
-        placeholder: "Write detail description.....",
+        placeholder: "Viết mô tả ...",
           tabsize: 2,
           height: 150
       });

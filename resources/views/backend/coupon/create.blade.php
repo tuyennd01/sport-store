@@ -65,7 +65,7 @@
 
     $(document).ready(function() {
     $('#description').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Viết mô tả ngắn...",
         tabsize: 2,
         height: 150
     });

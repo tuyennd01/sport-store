@@ -28,7 +28,7 @@
           <div class="input-group">
               <span class="input-group-btn">
                   <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                  <i class="fa fa-picture-o"></i> Choose
+                  <i class="fa fa-picture-o"></i> Chọn
                   </a>
               </span>
           <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$data->photo}}">
@@ -115,7 +115,7 @@
 
     $(document).ready(function() {
     $('#summary').summernote({
-      placeholder: "Write short description.....",
+      placeholder: "Viết mô tả ngắn...",
         tabsize: 2,
         height: 150
     });
@@ -130,7 +130,7 @@
     });
     $(document).ready(function() {
       $('#description').summernote({
-        placeholder: "Write detail description.....",
+        placeholder: "Viết mô tả ...",
           tabsize: 2,
           height: 150
       });

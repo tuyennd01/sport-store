@@ -152,7 +152,7 @@
             $shipping_charge=DB::table('shippings')->where('id',$order->shipping_id)->pluck('price');
           @endphp
           <th scope="col" class="text-right ">Shipping:</th>
-          <th><span>{{number_format($shipping_charge[0])}} VND</span></th>
+{{--          <th><span>{{number_format($shipping_charge) ?? ''}} VND</span></th>--}}
         </tr>
         <tr>
           <th scope="col" class="empty"></th>

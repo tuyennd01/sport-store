@@ -27,7 +27,6 @@
                 <div class="col-lg-6 offset-lg-3 col-12">
                     <div class="login-form">
                         <h2>Đăng nhập</h2>
-                        <p>Đăng nhập để thanh toán đơn hàng nhanh hơn</p>
                         <!-- Form -->
                         <form class="form" method="post" action="{{route('login.submit')}}">
                             @csrf
@@ -50,20 +49,23 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group login-btn">
-                                        <button class="btn" type="submit">Đăng nhập</button>
+                                <div class="col-12 d-flex justify-content-center flex-column">
+                                    <div class="form-group login-btn d-flex justify-content-center">
+                                        <button class="btn mr-2" type="submit">Đăng nhập</button>
                                         <a href="{{route('register.form')}}" class="btn">Đăng ký</a>
 
                                     </div>
-                                    <div class="checkbox">
-                                        <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox">Ghi nhớ đăng nhập</label>
+                                    <div class="d-flex align-content-center justify-content-center">
+                                        <div class="checkbox d-flex justify-content-center">
+                                            <label class="checkbox-inline text-center" for="2"><input name="news" id="2" type="checkbox">Ghi nhớ đăng nhập</label>
+                                        </div>
+{{--                                        @if (Route::has('password.request'))--}}
+{{--                                            <a class="lost-pass text-center" href="{{ route('password.reset') }}">--}}
+{{--                                                Quên mật khẩu?--}}
+{{--                                            </a>--}}
+{{--                                        @endif--}}
                                     </div>
-                                    @if (Route::has('password.request'))
-                                        <a class="lost-pass" href="{{ route('password.reset') }}">
-                                            Quên mật khẩu?
-                                        </a>
-                                    @endif
+
                                 </div>
                             </div>
                         </form>

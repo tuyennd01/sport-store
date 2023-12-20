@@ -29,7 +29,7 @@ class PostCommentService extends Service
         $status = PostComment::create($data);
         $user = User::where('role', 'admin')->get();
         $details = [
-            'title' => "New Comment created",
+            'title' => "Có bình luận bài viết mới!",
             'actionURL' => route('blog.detail', $post_info->slug),
             'fas' => 'fas fa-comment'
         ];
