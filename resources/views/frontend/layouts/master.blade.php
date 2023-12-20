@@ -23,11 +23,6 @@
 	@yield('main-content')
 
 	@include('frontend.layouts.footer')
-    <div id="fb-root"></div>
-
-    <!-- Your Plugin chat code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
-    </div>
 </body>
     <!-- Messenger Plugin chat Code -->
 
