@@ -98,7 +98,7 @@
                                     <h2>Tổng đơn hàng</h2>
                                     <div class="content">
                                         <ul>
-										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Cart Subtotal<span>{{number_format(Helper::totalCartPrice())}} VND</span></li>
+										    <li class="order_subtotal" data-price="{{Helper::totalCartPrice()}}">Giá<span>{{number_format(Helper::totalCartPrice())}} VND</span></li>
                                             <li class="shipping">
                                                Giá ship
                                                 @if(count(Helper::shipping())>0 && Helper::cartCount()>0)
@@ -114,7 +114,7 @@
                                             </li>
 
                                             @if(session('coupon'))
-                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">You Save<span>{{number_format(session('coupon')['value'])}} VND</span></li>
+                                            <li class="coupon_price" data-price="{{session('coupon')['value']}}">Được giảm<span>{{number_format(session('coupon')['value'])}} VND</span></li>
                                             @endif
                                             @php
                                                 $total_amount=Helper::totalCartPrice();
