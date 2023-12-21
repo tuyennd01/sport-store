@@ -162,5 +162,7 @@ return [
         'title'                 => 'tiêu đề',
         'username'              => 'tên đăng nhập',
         'year'                  => 'năm',
+        'shipping'              => 'Đơn vị giao hàng',
+        'payment_method'        => 'Phương thức thanh toán'
     ],
 ];

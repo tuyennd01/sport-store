@@ -1,6 +1,18 @@
 @extends('frontend.layouts.master')
 @section('title','DT-SHOP  || HOME PAGE')
 @section('main-content')
+@php
+    use Carbon\Carbon;
+    $daysOfWeek = [
+        1 => 'Thứ Hai',
+        2 => 'Thứ Ba',
+        3 => 'Thứ Tư',
+        4 => 'Thứ Năm',
+        5 => 'Thứ Sáu',
+        6 => 'Thứ Bảy',
+        7 => 'Chủ Nhật',
+    ];
+@endphp
     <!-- Slider Area -->
     @if(count($banners)>0)
         <section id="Gslider" class="carousel slide" data-ride="carousel">
@@ -116,7 +128,7 @@
                                                         $photo=explode(',',$product->photo);
                                                     // dd($photo);
                                                     @endphp
-                                                    <img class="default-img" style="aspect-ratio: 1 / 1" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                                    <img cla ss="default-img" style="aspect-ratio: 1 / 1" src="{{$photo[0]}}" alt="{{$photo[0]}}">
                                                     <img class="hover-img" style="aspect-ratio: 1 / 1" src="{{$photo[0]}}" alt="{{$photo[0]}}">
                                                     @if($product->stock<=0)
                                                         <span class="out-of-stock">Sale out</span>
@@ -132,15 +144,15 @@
                                                 </a>
                                                 <div class="button-head">
                                                     <div class="product-action">
-                                                        <a data-toggle="modal" data-target="#{{$product->id}}"
+                                                        {{-- <a data-toggle="modal" data-target="#{{$product->id}}"
                                                            title="Quick View" href="#"><i class=" ti-eye"></i><span>Xem Nhanh</span></a>
                                                         <a title="Wishlist"
                                                            href="{{route('add-to-wishlist',$product->slug)}}"><i
-                                                                class=" ti-heart "></i><span>Yêu thích</span></a>
+                                                                class=" ti-heart "></i><span>Yêu thích</span></a> --}}
                                                     </div>
                                                     <div class="product-action-2">
                                                         <a title="Thêm vào giỏ"
-                                                           href="{{route('add-to-cart',$product->slug)}}">Thêm vào
+                                                           href="{{route('product-detail',$product->slug)}}">Thêm vào
                                                             giỏ</a>
                                                     </div>
                                                 </div>
@@ -339,7 +351,7 @@
                             <div class="shop-single-blog">
                                 <img src="{{$post->photo}}" alt="{{$post->photo}}">
                                 <div class="content">
-                                    <p class="date">{{$post->created_at->format('d M , Y. D')}}</p>
+                                    <p class="date">{{$daysOfWeek[(Carbon::parse($post->created_at))->format("N")].' '.Carbon::parse($post->created_at)->format('d-m-Y')}}</p>
                                     <a href="{{route('blog.detail',$post->slug)}}" class="title">{{$post->title}}</a>
                                     <a href="{{route('blog.detail',$post->slug)}}" class="more-btn">Continue Reading</a>
                                 </div>

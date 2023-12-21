@@ -56,7 +56,9 @@ class OrderController extends Controller
             'coupon' => 'nullable|numeric',
             'phone' => 'numeric|required',
             'post_code' => 'string|nullable',
-            'email' => 'string|required'
+            'email' => 'string|required',
+            'shipping' => 'required',
+            'payment_method' => 'required'
         ]);
 
         OrderService::getInstance()->storeOrder($request);
@@ -153,7 +155,7 @@ class OrderController extends Controller
 
             }
         } else {
-            request()->session()->flash('error', 'Invalid order numer please try again');
+            request()->session()->flash('error', 'Số đơn hàng không hợp lệ');
             return back();
         }
     }

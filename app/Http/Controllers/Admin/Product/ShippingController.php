@@ -70,7 +70,7 @@ class ShippingController extends Controller
     {
         $shipping = Shipping::find($id);
         if (!$shipping) {
-            request()->session()->flash('error', 'Shipping not found');
+            request()->session()->flash('error', 'Không tìm thấy vận chuyển');
         }
         return view('backend.shipping.edit')->with('shipping', $shipping);
     }

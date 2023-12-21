@@ -69,7 +69,7 @@ class BrandController extends Controller
     {
         $brand = Brand::find($id);
         if (!$brand) {
-            request()->session()->flash('error', 'Brand not found');
+            request()->session()->flash('error', 'Không tìm thấy thương hiệu');
         }
         return view('backend.brand.edit')->with('brand', $brand);
     }

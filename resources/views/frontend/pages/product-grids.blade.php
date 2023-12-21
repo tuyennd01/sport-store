@@ -86,7 +86,7 @@
                                     <!--/ End Sắp xếp theo giá -->
                                 <!-- Single Widget -->
                                 <div class="single-widget recent-post">
-                                    <h3 class="title">Bài Viết Gần Đây</h3>
+                                    <h3 class="title">Sản Phẩm Gần Đây</h3>
                                     {{-- {{dd($recent_products)}} --}}
                                     @foreach($recent_products as $product)
                                         <!-- Single Post -->
@@ -179,11 +179,11 @@
                                                 </a>
                                                 <div class="button-head">
                                                     <div class="product-action">
-                                                        <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Xem Nhanh</span></a>
-                                                        <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" class="wishlist" data-id="{{$product->id}}"><i class=" ti-heart "></i><span>Yêu thích</span></a>
+                                                        {{-- <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Xem Nhanh</span></a>
+                                                        <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" class="wishlist" data-id="{{$product->id}}"><i class=" ti-heart "></i><span>Yêu thích</span></a> --}}
                                                     </div>
                                                     <div class="product-action-2">
-                                                        <a title="Thêm vào giỏ" href="{{route('add-to-cart',$product->slug)}}">Thêm vào giỏ</a>
+                                                        <a title="Thêm vào giỏ" href="{{route('product-detail',$product->slug)}}">Thêm vào giỏ</a>
                                                     </div>
                                                 </div>
                                             </div>

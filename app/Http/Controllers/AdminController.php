@@ -74,9 +74,9 @@ class AdminController extends Controller
         $status = $settings->fill($data)->save();
 
         if ($status) {
-            request()->session()->flash('success', 'Setting successfully updated');
+            request()->session()->flash('success', 'Cài đặt đã được cập nhật thành công');
         } else {
-            request()->session()->flash('error', 'Please try again');
+            request()->session()->flash('error', 'Vui lòng thử lại lần nữa');
         }
 
         return redirect()->route('admin');
@@ -133,7 +133,7 @@ class AdminController extends Controller
             //Regenerate the storage link folder
             try {
                 Artisan::call('storage:link');
-                request()->session()->flash('success', 'Successfully storage linked.');
+                request()->session()->flash('success', 'Đã liên kết bộ nhớ thành công.');
                 return redirect()->back();
             } catch (\Exception $exception) {
                 request()->session()->flash('error', $exception->getMessage());
@@ -142,7 +142,7 @@ class AdminController extends Controller
         } else {
             try {
                 Artisan::call('storage:link');
-                request()->session()->flash('success', 'Successfully storage linked.');
+                request()->session()->flash('success', 'Đã liên kết bộ nhớ thành công.');
                 return redirect()->back();
             } catch (\Exception $exception) {
                 request()->session()->flash('error', $exception->getMessage());

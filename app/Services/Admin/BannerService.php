@@ -54,7 +54,7 @@ class BannerService extends Service
         if ($status) {
             request()->session()->flash('success', 'Xóa banner thành công');
         } else {
-            request()->session()->flash('error', 'Error occurred while deleting banner');
+            request()->session()->flash('error', 'Đã xảy ra lỗi khi xóa biểu ngữ');
         }
     }
 }

@@ -76,7 +76,7 @@ class CartController extends Controller
             return back()->with('error', 'Hết hàng, bạn có thể thêm sản phẩm khác.');
         }
         if (($request->quantity < 1) || empty($product)) {
-            request()->session()->flash('error', 'Invalid Products');
+            request()->session()->flash('error', 'Sản phẩm không hợp lệ');
             return back();
         }
 
@@ -116,7 +116,7 @@ class CartController extends Controller
             request()->session()->flash('success', 'Đã xóa giỏ hàng thành công');
             return back();
         }
-        request()->session()->flash('error', 'Error please try again');
+        request()->session()->flash('error', 'Lỗi, vui lòng thử lại lần nữa');
         return back();
     }
 

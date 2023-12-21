@@ -111,6 +111,9 @@
                                                 @else
                                                     <span>Free</span>
                                                 @endif
+                                                @error('shipping')
+                                                    <p class='text-danger block'>{{$message}}</p>
+                                                @enderror
                                             </li>
 
                                             @if(session('coupon'))
@@ -141,7 +144,9 @@
                                                 <input name="payment_method"  type="radio" value="cod"> <label> Trả tiền khi nhận hàng</label><br>
                                                 <input name="payment_method"  type="radio" value="vnpay"> <label> VNpay</label>
                                             </form-group>
-
+                                            @error('payment_method')
+                                                <p class='text-danger block'>{{$message}}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>

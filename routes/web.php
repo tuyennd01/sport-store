@@ -31,7 +31,7 @@ use UniSharp\LaravelFilemanager\Lfm;
     // CACHE CLEAR ROUTE
     Route::get('cache-clear', function () {
         Artisan::call('optimize:clear');
-        request()->session()->flash('success', 'Successfully cache cleared.');
+        request()->session()->flash('success', 'Đã xóa bộ nhớ đệm thành công.');
         return redirect()->back();
     })->name('cache.clear');
 

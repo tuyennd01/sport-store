@@ -30,11 +30,11 @@ class NotificationController extends Controller
                 request()->session()->flash('success', 'Đã xóa thông báo thành công');
                 return back();
             } else {
-                request()->session()->flash('error', 'Error please try again');
+                request()->session()->flash('error', 'Lỗi, Vui lòng thử lại');
                 return back();
             }
         } else {
-            request()->session()->flash('error', 'Notification not found');
+            request()->session()->flash('error', 'Không tìm thấy thông báo');
             return back();
         }
     }

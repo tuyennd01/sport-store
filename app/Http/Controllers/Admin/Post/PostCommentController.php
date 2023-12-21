@@ -69,7 +69,7 @@ class PostCommentController extends Controller
         if ($comments) {
             return view('backend.comment.edit')->with('comment', $comments);
         } else {
-            request()->session()->flash('error', 'Comment not found');
+            request()->session()->flash('error', 'Không tìm thấy bình luận');
             return redirect()->back();
         }
     }

@@ -374,7 +374,7 @@ class FrontendController extends Controller
             request()->session()->flash('success', 'Đăng nhập thành công');
             return redirect()->route('home');
         } else {
-            request()->session()->flash('error', 'Invalid email and password pleas try again!');
+            request()->session()->flash('error', 'Email và password không hợp lệ vui lòng thử lại!');
             return redirect()->back();
         }
     }
@@ -408,7 +408,7 @@ class FrontendController extends Controller
             request()->session()->flash('success', 'Đăng ký thành công');
             return redirect()->route('home');
         } else {
-            request()->session()->flash('error', 'Please try again!');
+            request()->session()->flash('error', 'Vui lòng thử lại lần nữa!');
             return back();
         }
     }
@@ -434,14 +434,14 @@ class FrontendController extends Controller
         if (!Newsletter::isSubscribed($request->email)) {
             Newsletter::subscribePending($request->email);
             if (Newsletter::lastActionSucceeded()) {
-                request()->session()->flash('success', 'Subscribed! Please check your email');
+                request()->session()->flash('success', 'Đã đăng ký! Vui long kiểm tra email');
                 return redirect()->route('home');
             } else {
                 Newsletter::getLastError();
-                return back()->with('error', 'Something went wrong! please try again');
+                return back()->with('error', 'Lỗi, Vui lòng thử lại lần nữa');
             }
         } else {
-            request()->session()->flash('error', 'Already Subscribed');
+            request()->session()->flash('error', 'Đã đăng ký');
             return back();
         }
     }

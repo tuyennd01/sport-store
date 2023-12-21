@@ -66,7 +66,7 @@
         </table>
         <span style="float:right">{{$comments->links()}}</span>
         @else
-          <h6 class="text-center">No post comments found!!!</h6>
+          <h6 class="text-center">Không tìm thấy bình luận bài viết!!!</h6>
         @endif
       </div>
     </div>
